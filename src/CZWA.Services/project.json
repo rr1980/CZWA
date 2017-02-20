@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "CZWA.Common": "1.0.0-*",
+    "CZWA.DB": "1.0.0-*",
+    "CZWA.Entitys": "1.0.0-*",
+    "CZWA.ViewModels": "1.0.0-*",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
+    "NETStandard.Library": "1.6.1",
+    "System.Security.Claims": "4.3.0"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+  }
+}

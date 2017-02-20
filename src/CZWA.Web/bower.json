@@ -1,0 +1,12 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "*",
+    "jquery": "2.2.3",
+    "jquery-validation": "*",
+    "jquery-validation-unobtrusive": "*",
+    "knockout": "*",
+    "knockout-mapping": "*"
+  }
+}

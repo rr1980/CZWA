@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "CZWA.Common": "1.0.0-*",
+    "Microsoft.AspNetCore.Authorization": "1.1.0",
+    "NETStandard.Library": "1.6.1"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+  }
+}
