@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CZWA.Common;
 using CZWA.Entitys;
+using CZWA.Services;
 using CZWA.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +16,9 @@ namespace CZWA.Web.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly ILoginService _loginService;
+        private readonly LoginService _loginService;
 
-        public AccountController(ILoginService loginService)
+        public AccountController(LoginService loginService)
         {
             _loginService = loginService;
         }
@@ -34,8 +35,8 @@ namespace CZWA.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = (User)await _loginService.Auth(model.Username, model.Password);
-                if (user != null)
+                bool isAuth = await _loginService.Auth(model.Username, model.Password);
+                if (isAuth)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
@@ -43,7 +44,6 @@ namespace CZWA.Web.Controllers
                     }
                     else
                     {
-
                         return Redirect("~/");
                     }
                 }

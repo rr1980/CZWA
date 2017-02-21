@@ -20,10 +20,9 @@ namespace CZWA.Web.Controllers
         }
 
         [Authorize(Policy = "ReadPolicy")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var result = View(new HomeViewModel());
-            return View(result.Model);
+            return View(new HomeViewModel());
         }
 
         public IActionResult Error()

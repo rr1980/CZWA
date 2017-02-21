@@ -14,6 +14,6 @@ namespace CZWA.Entitys
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public virtual ICollection<RoleToUser> RoleToUser { get; set; }
+        public virtual ICollection<RoleToUser> RoleToUsers { get; set; }
     }
 }

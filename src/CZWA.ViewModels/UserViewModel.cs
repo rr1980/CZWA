@@ -7,9 +7,11 @@ namespace CZWA.ViewModels
 {
     public class UserViewModel
     {
+        public int UserId { get; set; }
         public string Name { get; set; }
         public string Vorname { get; set; }
         public string Username { get; set; }
+
         public IEnumerable<UserRoleViewModel> Roles { get; set; }
     }
 }

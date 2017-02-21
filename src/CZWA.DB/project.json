@@ -4,6 +4,7 @@
   "dependencies": {
     "CZWA.Common": "1.0.0-*",
     "CZWA.Entitys": "1.0.0-*",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "NETStandard.Library": "1.6.1"
   },

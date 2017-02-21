@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CZWA.Common;
 using CZWA.DB;
 using CZWA.Entitys;
+using CZWA.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CZWA.Services
 {
-    public class LoginService : ILoginService
+    public class LoginService 
     {
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,28 +28,31 @@ namespace CZWA.Services
             _logger.LogWarning("LoginService init...");
         }
 
-        public async Task<IEntity> GetUser()
+        public async Task<UserViewModel> GetUser()
         {
             var id = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-
             User user = await _context.GetUserById(id);
 
-            //var nachname = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname).Value;
-            //var vorname = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName).Value;
-
-            //var result = new UserViewModel() { Name = nachname, Vorname = vorname };
-
-            return user;
+            return new UserViewModel()
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Name = user.Name,
+                Vorname = user.Vorname,
+                Roles = _getRoles(user)
+            };
         }
 
-        public async Task<IEnumerable<IEntity>> GetRoles()
+        private IEnumerable<UserRoleViewModel> _getRoles(User user)
         {
-            return ((User)await GetUser()).RoleToUser.Select(rtu => rtu.Role);
+            var roles = user.RoleToUsers.Select(r => r.Role);
+            return roles.Select(r => new UserRoleViewModel(r.UserRoleType));
         }
 
-        public async Task<IEntity> Auth(string username, string password)
+        public async Task<bool> Auth(string username, string password)
         {
-            User user = await _context.GetUser(username,password);
+            var user = await _context.GetUser(username,password);
+
             if (user != null)
             {
                 var claims = new List<Claim> {
@@ -59,7 +63,7 @@ namespace CZWA.Services
                                  new Claim(ClaimTypes.Name, user.Username)
                         };
 
-                var uroles = user.RoleToUser.Select(rtu => rtu.Role).Select(r => new Claim(ClaimTypes.Role, r.UserRoleType.ToString()));
+                var uroles = user.RoleToUsers.Select(r => new Claim(ClaimTypes.Role, r.Role.UserRoleType.ToString()));
                 foreach (var role in uroles)
                 {
                     claims.Add(role);
@@ -77,9 +81,9 @@ namespace CZWA.Services
                     AllowRefresh = true
                 });
 
+                return true;
             }
-
-            return user;
+            return false;
         }
     }
 }

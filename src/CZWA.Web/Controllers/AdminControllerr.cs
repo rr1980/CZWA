@@ -20,7 +20,7 @@ namespace CZWA.Web.Controllers
         }
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(new AdminViewModel());
         }
