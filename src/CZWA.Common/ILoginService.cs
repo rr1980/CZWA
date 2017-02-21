@@ -7,6 +7,8 @@ namespace CZWA.Common
 {
     public interface ILoginService
     {
+        Task<IEntity> GetUser();
         Task<IEntity> Auth(string username, string password);
+        Task<IEnumerable<IEntity>> GetRoles();
     }
 }

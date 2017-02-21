@@ -7,6 +7,6 @@ namespace CZWA.ViewModels
 {
     public class NavbarViewModel
     {
-        public UserViewModel User { get; set; }
+        public UserViewModel UserViewModel { get; set; }
     }
 }

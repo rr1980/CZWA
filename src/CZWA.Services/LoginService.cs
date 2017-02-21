@@ -9,6 +9,7 @@ using CZWA.Entitys;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.Extensions.Logging;
 
 namespace CZWA.Services
 {
@@ -16,13 +17,35 @@ namespace CZWA.Services
     {
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger _logger;
 
-        public LoginService(DataContext context, IHttpContextAccessor httpContextAccessor)
+        public LoginService(DataContext context, IHttpContextAccessor httpContextAccessor, ILogger<LoginService> logger)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
-
+            _logger = logger;
+            _logger.LogWarning("LoginService init...");
         }
+
+        public async Task<IEntity> GetUser()
+        {
+            var id = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            User user = await _context.GetUserById(id);
+
+            //var nachname = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname).Value;
+            //var vorname = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName).Value;
+
+            //var result = new UserViewModel() { Name = nachname, Vorname = vorname };
+
+            return user;
+        }
+
+        public async Task<IEnumerable<IEntity>> GetRoles()
+        {
+            return ((User)await GetUser()).RoleToUser.Select(rtu => rtu.Role);
+        }
+
         public async Task<IEntity> Auth(string username, string password)
         {
             User user = await _context.GetUser(username,password);

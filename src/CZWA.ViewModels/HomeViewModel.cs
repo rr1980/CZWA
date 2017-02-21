@@ -7,6 +7,6 @@ namespace CZWA.ViewModels
 {
     public class HomeViewModel
     {
-        public UserViewModel User { get; set; }
+
     }
 }

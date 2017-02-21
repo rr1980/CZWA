@@ -22,11 +22,7 @@ namespace CZWA.Web.Controllers
         [Authorize(Policy = "ReadPolicy")]
         public async Task<IActionResult> Index()
         {
-            var result = View(new HomeViewModel()
-            {
-                User = await _getUser()
-            });
-
+            var result = View(new HomeViewModel());
             return View(result.Model);
         }
 

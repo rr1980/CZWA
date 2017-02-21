@@ -22,10 +22,7 @@ namespace CZWA.Web.Controllers
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> Index()
         {
-            return View(new AdminViewModel()
-            {
-                User = await _getUser()
-            });
+            return View(new AdminViewModel());
         }
 
         public IActionResult Error()
