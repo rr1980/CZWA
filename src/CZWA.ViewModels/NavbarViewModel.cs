@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CZWA.ViewModels
 {
-    public class HomeViewModel
+    public class NavbarViewModel
     {
         public UserViewModel User { get; set; }
     }

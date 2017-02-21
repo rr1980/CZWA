@@ -64,3 +64,17 @@ textarea {
         font-size: 120%;
         font-weight: bold;
     }
+
+
+.usr-name {
+    font-size: -40%;
+    color: rgba(255, 255, 255, 0.34) !important;
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}

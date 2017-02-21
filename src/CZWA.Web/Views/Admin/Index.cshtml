@@ -1,0 +1,21 @@
+﻿@model  CZWA.ViewModels.AdminViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Admin Page";
+}
+
+@await Component.InvokeAsync(nameof(NavbarComponent), new { Model.User })
+
+<div id="adminView" class="container-fluid">
+    <h1>
+        Hallo Admin...
+    </h1>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var viewmodel = new ViewModels.AdminViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('adminView'));
+    });
+</script>

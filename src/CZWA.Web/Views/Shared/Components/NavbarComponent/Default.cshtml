@@ -1,0 +1,40 @@
+﻿@model  CZWA.ViewModels.NavbarViewModel
+
+<div id="navbarContent" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Main</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <span class="navbar-brand usr-name" data-bind="text: user.vorname"></span>
+                    </li>
+                    <li>
+                        <form>
+                            ﻿<a class="btn btn-info btn-sm navbar-btn" asp-controller="Account" asp-action="Logout">
+                                <span class="glyphicon glyphicon-log-out"></span> Log out
+                            </a>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var viewmodel = new ViewModels.NavBarViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('navbarContent'));
+</script>

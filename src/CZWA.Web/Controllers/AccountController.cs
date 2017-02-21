@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CZWA.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly ILoginService _loginService;
 

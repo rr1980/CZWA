@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace CZWA.ViewModels
 {
-    public class HomeViewModel
+    public class UserViewModel
     {
-        public UserViewModel User { get; set; }
+        public string Name { get; set; }
+        public string Vorname { get; set; }
     }
 }

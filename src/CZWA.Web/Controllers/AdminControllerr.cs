@@ -10,24 +10,22 @@ using CZWA.ViewModels;
 
 namespace CZWA.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class AdminController : BaseController
     {
         private readonly ILogger _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public AdminController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        [Authorize(Policy = "ReadPolicy")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> Index()
         {
-            var result = View(new HomeViewModel()
+            return View(new AdminViewModel()
             {
                 User = await _getUser()
             });
-
-            return View(result.Model);
         }
 
         public IActionResult Error()

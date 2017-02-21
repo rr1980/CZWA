@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CZWA.Web.Controllers
 {
-    public class WebSocketController : Controller
+    public class WebSocketController : BaseController
     {
         private NotificationsMessageHandler _notificationsMessageHandler { get; set; }
 
