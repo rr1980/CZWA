@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CZWA.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using CZWA.ViewModels;
 
 namespace CZWA.Views.Controllers
 {
@@ -20,7 +20,9 @@ namespace CZWA.Views.Controllers
         }
 
         [Authorize(Policy = "ReadPolicy")]
+#pragma warning disable CS1998 // Bei der asynchronen Methode fehlen "await"-Operatoren. Die Methode wird synchron ausgeführt.
         public async Task<IActionResult> Index()
+#pragma warning restore CS1998 // Bei der asynchronen Methode fehlen "await"-Operatoren. Die Methode wird synchron ausgeführt.
         {
             var nachname = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname).Value;
             var vorname = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName).Value;

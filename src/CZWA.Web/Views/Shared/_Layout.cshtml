@@ -4,12 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Main</title>
-
+    <script>
+        window.ViewModels = {};
+        window.Services = {};
+    </script>
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-dark.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
         @*<link rel="stylesheet" href="~/css/main.css" />*@
+        <link rel="stylesheet" href="~/css/site.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -42,11 +46,11 @@
     </div>
 
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/knockout/dist/knockout.js"></script>
-        <script src="~/lib/knockout-mapping/knockout.mapping.js"></script>
-        <script asp-src-include="~/js/ViewDatas/**/*.js"></script>
+
+
+
+
+        
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -72,8 +76,13 @@
 
     <environment names="Development">
 
-        <script src="~/js/main.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/knockout/dist/knockout.js"></script>
+        <script src="~/lib/knockout-mapping/knockout.mapping.js"></script>
+        <script src="~/js/main.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script asp-src-include="~/js/Services/**/*.js"></script>
+        <script asp-src-include="~/js/ViewDatas/**/*.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

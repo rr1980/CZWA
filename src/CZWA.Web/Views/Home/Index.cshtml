@@ -7,21 +7,23 @@
     <h1>
         Hallo...
         <span data-bind="text: (name()+', '+vorname())"></span>
-
-
         ﻿<a asp-controller="Account" asp-action="Logout">Logout</a>
     </h1>
 
-    <input type=text id="textInput" placeholder="Enter your text" />
-    <button id="sendButton">Send</button>
+    <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
+    <button id="sendButton" data-bind="click: onClickSend">Send</button>
 
-    <ul id="messages"></ul>
-
-
+    <ul id="messages" data-bind="foreach: msgs">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
 </div>
 
 
 <script>
-    var vmc = document.getElementById("homeView");
-    ko.applyBindings(new HomeViewData(@Html.Raw(Json.Serialize(Model))), vmc);
+    $(document).ready(function () {
+        var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('homeView'));
+    });
 </script>

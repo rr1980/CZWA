@@ -8,6 +8,7 @@ using CZWA.Authorization;
 using CZWA.Common;
 using CZWA.DB;
 using CZWA.Services;
+using CZWA.WebSockets;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;

@@ -114,7 +114,9 @@ namespace CZWA.WebSockets
             {
                 method.Invoke(this, invocationDescriptor.Arguments);
             }
+#pragma warning disable CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
             catch (TargetParameterCountException e)
+#pragma warning restore CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
             {
                 await SendMessageAsync(socket, new Message()
                 {
@@ -123,7 +125,9 @@ namespace CZWA.WebSockets
                 });
             }
 
+#pragma warning disable CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
             catch (ArgumentException e)
+#pragma warning restore CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
             {
                 await SendMessageAsync(socket, new Message()
                 {

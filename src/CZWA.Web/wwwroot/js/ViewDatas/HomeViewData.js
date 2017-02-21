@@ -1,7 +1,30 @@
 ﻿
-var HomeViewData = function (data) {
-    var self = this;
-    ko.mapping.fromJS(data, {}, self);
+window.ViewModels = (function (module) {
+    module.HomeViewData = function (data) {
+        var self = this;
+        self.tinput = ko.observable("");
+        self.msgs = ko.observableArray();
+        var wService = new Services.WebSocketService();
 
-    //var newData = ko.mapping.toJS(viewModel);
-};
+        ko.mapping.fromJS(data, {}, self);
+
+
+        connection.clientMethods["receiveMessage"] = (message) => {
+            var messageText = "Someone said: " + message;
+
+            console.log(messageText);
+
+            self.msgs.push(messageText);
+        };
+
+
+        self.onClickSend = function () {
+            console.log("Sending through HTTP to a controller:" + self.tinput());
+
+            wService.sendmessage(self.tinput()).done(function (response) {
+                console.debug(response);
+            });
+        };
+    };
+    return module;
+}(this.ViewModels || {}));

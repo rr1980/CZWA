@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="js/main.js" />
+/// <reference path="js/services/websocketservice.js" />
 /// <reference path="js/site.js" />
 /// <reference path="js/viewdatas/homeviewdata.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />

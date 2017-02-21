@@ -43,7 +43,9 @@ namespace CZWA.WebSockets
                         await _webSocketHandler.OnDisconnected(socket);
                     }
 
+#pragma warning disable CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
                     catch (WebSocketException e)
+#pragma warning restore CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
                     {
                     }
 

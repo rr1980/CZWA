@@ -182,3 +182,7 @@
 });
 ;
 //# sourceMappingURL=WebSocketManager.js.map
+
+var uri = "ws://localhost:63497/notifications";
+var connection = new WebSocketManager.Connection(uri);
+connection.start();
