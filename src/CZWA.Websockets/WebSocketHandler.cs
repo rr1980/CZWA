@@ -68,7 +68,12 @@ namespace CZWA.WebSockets
             }
         }
 
-        public async Task InvokeClientMethodAsync(string socketId, string methodName, object[] arguments)
+        public async Task InvokeClientMethodAsync(WebSocket socket, string methodName, params object[] arguments)
+        {
+            await InvokeClientMethodAsync(WebSocketConnectionManager.GetId(socket), methodName, arguments);
+        }
+
+        public async Task InvokeClientMethodAsync(string socketId, string methodName, params object[] arguments)
         {
             var message = new Message()
             {
@@ -96,6 +101,10 @@ namespace CZWA.WebSockets
         {
             var serializedInvocationDescriptor = Encoding.UTF8.GetString(buffer, 0, result.Count);
             var invocationDescriptor = JsonConvert.DeserializeObject<InvocationDescriptor>(serializedInvocationDescriptor);
+
+            var aa = invocationDescriptor.Arguments.ToList();
+            aa.Insert(0, socket);
+            invocationDescriptor.Arguments = aa.ToArray();
 
             var method = this.GetType().GetMethod(invocationDescriptor.MethodName);
 

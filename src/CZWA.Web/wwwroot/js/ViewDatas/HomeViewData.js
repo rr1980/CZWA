@@ -21,9 +21,11 @@ window.ViewModels = (function (module) {
         self.onClickSend = function () {
             console.log("Sending through HTTP to a controller:" + self.tinput());
 
-            wService.sendmessage(self.tinput()).done(function (response) {
-                console.debug(response);
-            });
+            //wService.sendmessage(self.tinput()).done(function (response) {
+            //    console.debug(response);
+            //});
+
+            connection.invoke("TestMethode","Riesner");
         };
     };
     return module;

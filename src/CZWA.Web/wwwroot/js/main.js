@@ -71,8 +71,8 @@
         var Connection = (function () {
             function Connection(url, enableLogging) {
                 var _this = this;
-                if (enableLogging === void 0) { enableLogging = false; }
-                this.enableLogging = false;
+                if (enableLogging === void 0) { enableLogging = true; }
+                this.enableLogging = true;
                 this.clientMethods = {};
                 this.connectionMethods = {};
                 this.url = url;
@@ -185,4 +185,5 @@
 
 var uri = "ws://localhost:63497/notifications";
 var connection = new WebSocketManager.Connection(uri);
+connection.enableLogging = true;
 connection.start();

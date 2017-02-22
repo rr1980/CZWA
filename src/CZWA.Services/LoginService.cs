@@ -14,11 +14,28 @@ using Microsoft.Extensions.Logging;
 
 namespace CZWA.Services
 {
-    public class LoginService 
+    public class LoginService
     {
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
+
+        private UserViewModel _user;
+        public UserViewModel User
+        {
+            get
+            {
+                if (_user == null)
+                {
+                    _user = _getUser().Result;
+                }
+                return _user;
+            }
+            private set
+            {
+                _user = value;
+            }
+        }
 
         public LoginService(DataContext context, IHttpContextAccessor httpContextAccessor, ILogger<LoginService> logger)
         {
@@ -28,7 +45,12 @@ namespace CZWA.Services
             _logger.LogWarning("LoginService init...");
         }
 
-        public async Task<UserViewModel> GetUser()
+        public  bool HasRole(UserRoleType urt)
+        {
+            return User.Roles.Any(r => r.UserRoleType == urt);
+        }
+
+        private async Task<UserViewModel> _getUser()
         {
             var id = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             User user = await _context.GetUserById(id);
@@ -51,7 +73,7 @@ namespace CZWA.Services
 
         public async Task<bool> Auth(string username, string password)
         {
-            var user = await _context.GetUser(username,password);
+            var user = await _context.GetUser(username, password);
 
             if (user != null)
             {
@@ -73,7 +95,7 @@ namespace CZWA.Services
                 var claimsIdentity = new ClaimsIdentity(claims, "password");
                 var claimsPrinciple = new ClaimsPrincipal(claimsIdentity);
 
-                
+
                 await _httpContextAccessor.HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrinciple, new AuthenticationProperties
                 {
                     ExpiresUtc = DateTime.UtcNow.AddHours(12),
