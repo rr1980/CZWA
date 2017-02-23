@@ -14,27 +14,27 @@ using Microsoft.Extensions.Logging;
 
 namespace CZWA.Services
 {
-    public class LoginService
+    public class LoginService 
     {
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
-        private UserViewModel _user;
+        //private UserViewModel _user;
         public UserViewModel User
         {
             get
             {
-                if (_user == null)
-                {
-                    _user = _getUser().Result;
-                }
-                return _user;
+                //if (_user == null)
+                //{
+                //    _user = _getUser().Result;
+                //}
+                return _getUser().Result;
             }
-            private set
-            {
-                _user = value;
-            }
+            //private set
+            //{
+            //    _user = value;
+            //}
         }
 
         private List<UserViewModel> _allusers;

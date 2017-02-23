@@ -120,6 +120,7 @@ namespace CZWA.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            app.MapWebSocketManager("/admins", serviceProvider.GetService<AdminMessageHandler>());
             app.MapWebSocketManager("/notifications", serviceProvider.GetService<NotificationsMessageHandler>());
 
             SeedData.Initialize(ctx);

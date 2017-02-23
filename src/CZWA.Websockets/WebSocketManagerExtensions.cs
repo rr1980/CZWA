@@ -13,7 +13,7 @@ namespace CZWA.WebSockets
     {
         public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
         {
-            services.AddTransient<WebSocketConnectionManager>();
+            services.AddSingleton<WebSocketConnectionManager>();
 
             //foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
             //{

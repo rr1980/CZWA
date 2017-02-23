@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CZWA.Common;
 
 namespace CZWA.ViewModels
 {
-    public class UserViewModel
+    public class UserViewModel : IEntity 
     {
         public int UserId { get; set; }
         public string Name { get; set; }

@@ -29,7 +29,7 @@
     "CZWA.Entitys": "1.0.0-*",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "CZWA.DB": "1.0.0-*",
-    "CZWA.Websockets": "1.0.0-*",
+    "CZWA.Websockets": "1.0.0",
     "CZWA.ViewModels": "1.0.0-*"
   },
 

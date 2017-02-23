@@ -108,7 +108,6 @@ namespace CZWA.WebSockets
 
             var method = this.GetType().GetMethod(invocationDescriptor.MethodName);
 
-
             if (method == null)
             {
                 await SendMessageAsync(socket, new Message()

@@ -5,7 +5,10 @@
     "NETStandard.Library": "1.6.1",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0"
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
+    "CZWA.Services": "1.0.0-*",
+    "CZWA.Common": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.1.1"
   },
 
   "tools": {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
@@ -47,6 +48,7 @@ namespace CZWA.WebSockets
                     catch (WebSocketException e)
 #pragma warning restore CS0168 // Variable ist deklariert, wird jedoch niemals verwendet
                     {
+                        Debug.WriteLine(e.Message);
                     }
 
                     return;

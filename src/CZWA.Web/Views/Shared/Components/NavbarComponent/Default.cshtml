@@ -28,10 +28,14 @@
                             <span class="navbar-brand usr-name" data-bind="text: userViewModel.username"></span>
                         </li>
                         <li>
-                            <form>
-                                ﻿<a class="btn btn-info btn-sm navbar-btn" asp-controller="Account" asp-action="Logout">
+                            <form data-bind="submit: onClickLogout">
+                                @*﻿<a class="btn btn-info btn-sm navbar-btn" asp-controller="Account" asp-action="Logout">
                                     <span class="glyphicon glyphicon-log-out"></span> Log out
-                                </a>
+                                </a>*@
+
+                                <button type="submit" class="btn btn-info btn-sm navbar-btn">
+                                    <span class="glyphicon glyphicon-log-out"></span> Log out
+                                </button>
                             </form>
                         </li>
                     </ul>

@@ -7,8 +7,11 @@ window.ViewModels = (function (module) {
         self.selectedUserId = ko.observable();
         self.user = ko.observable(self.users()[0]);
 
+        //var wService = new Services.WebSocketService();
+
         self.onClickInsert = function () {
             console.debug(self.user());
+            connection_admin.invoke("SaveUser", ko.mapping.toJS(self.user));
         };
 
         self.onClickEdit = function () {
