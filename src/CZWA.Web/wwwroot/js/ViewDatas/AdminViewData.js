@@ -2,29 +2,38 @@
 window.ViewModels = (function (module) {
     module.AdminViewData = function (data) {
         var self = this;
-        self.selectedRoleId = ko.observableArray([2]);
         ko.mapping.fromJS(data, {}, self);
 
+        self.selectedUserId = ko.observable();
+        self.user = ko.observable(self.users()[0]);
+
+        self.onClickInsert = function () {
+            console.debug(self.user());
+        };
+
+        self.onClickEdit = function () {
+            console.debug("onClickEdit");
+        };
+
+        self.onClickDelete = function () {
+            console.debug("onClickDelete");
+        };
+
+        self.onClickSave = function () {
+            console.debug("onClickSave");
+        };
 
 
-        self.user = ko.computed({
-            read: function () {
-                var result;
-                for (var i = 0; i < self.users().length; i++) {
-                    var id = self.users()[i].userId();
-                    if (self.selectedUserId() === self.users()[i].userId()) {
-                        result = self.users()[i];
-                    }
+        self.selectedUserId.subscribe(function () {
+            for (var i = 0; i < self.users().length; i++) {
+                if (self.selectedUserId() === self.users()[i].userId()) {
+                    self.user(self.users()[i]);
+                    break;
                 }
-
-                return result;
-            },
-            write: function (value) {
-                
-            },
-            owner: this
+            }
+            $(".selectpicker").selectpicker('refresh');
         });
-        $(".selectpicker").selectpicker('refresh');
+
     };
     return module;
 }(this.ViewModels || {}));

@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 
 namespace CZWA.Common
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    //[JsonConverter(typeof(StringEnumConverter))]
     public enum UserRoleType
     {
         Admin,

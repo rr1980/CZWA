@@ -38,11 +38,10 @@ namespace CZWA.Web.TagHelpers
             Value = TagHelperTools.FirstLetterToLower(Value);
             Id = Id == null ? TagHelperTools.GetID() : Id;
 
-            Array OptionsArray = System.Enum.GetValues(EnumType);
+            //Array OptionsArray = System.Enum.GetValues(EnumType);
 
 
             var enumVals = new List<object>();
-
             foreach (var item in Enum.GetValues(EnumType))
             {
 
@@ -68,10 +67,8 @@ namespace CZWA.Web.TagHelpers
             }
 
             template += $"<select class='selectpicker form-control show-tick input-sm' data-style='btn btn-info btn-sm' multiple='true' data-bind='selectedOptions: {Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options}'></select>";
-            //template += $"<select class='form-control show-tick input-sm' data-style='btn btn-info btn-sm' multiple='true' data-bind='selectPicker: {Value}, optionsText: \"name\", optionsValue : \"id\",selectPickerOptions: {{ optionsArray: {Options}}}'></select>";
 
             output.Content.SetHtmlContent(template);
-
         }
     }
 }

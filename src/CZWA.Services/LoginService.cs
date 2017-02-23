@@ -65,7 +65,7 @@ namespace CZWA.Services
 
         public bool HasRole(UserRoleType urt)
         {
-            return User.Roles.Any(r => r.UserRoleType == urt);
+            return User.Roles.Any(r => r == (int)urt);
         }
 
 
@@ -98,10 +98,10 @@ namespace CZWA.Services
             };
         }
 
-        private IEnumerable<UserRoleViewModel> _getRoles(User user)
+        private IEnumerable<int> _getRoles(User user)
         {
             var roles = user.RoleToUsers.Select(r => r.Role);
-            return roles.Select(r => new UserRoleViewModel(r.UserRoleType));
+            return roles.Select(r => (int)r.UserRoleType);
         }
 
         public async Task<bool> Auth(string username, string password)

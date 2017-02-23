@@ -12,6 +12,6 @@ namespace CZWA.ViewModels
         public string Vorname { get; set; }
         public string Username { get; set; }
 
-        public IEnumerable<UserRoleViewModel> Roles { get; set; }
+        public IEnumerable<int> Roles { get; set; }
     }
 }
