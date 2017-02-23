@@ -42,5 +42,11 @@ namespace CZWA.DB
             var usr = (User)await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
             return usr;
         }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            var usrs = await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).ToListAsync();
+            return usrs;
+        }
     }
 }

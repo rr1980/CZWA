@@ -6,12 +6,37 @@
 
 @await Component.InvokeAsync(nameof(NavbarComponent))
 
-<div id="adminView" class="container-fluid">
-    <h1>
-        Hallo Admin...
-    </h1>
-</div>
-
+<div id="adminView" class="view container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading clearfix">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <h5 class="control-label">Benutzer</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <th_select th-isFC="false" th-withLabel="false" th-label="User" th-value="SelectedUserId" th-options="Users" th-ovalue="UserId" th-otext="Username"></th_select>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <th_li th-label="Name" th-input="user().name" th-col="6"></th_li>
+                            <th_li th-label="Vorname" th-input="user().vorname" th-col="6"></th_li>
+                        </div>
+                        <div class="row">
+                            <th_li th-label="Username" th-input="user().username" th-col="6"></th_li>
+                            <span data-bind="text: (selectedRoleId()[0])"></span>
+                            @*<th_select th-col="6" th-label="User" th-value="SelectedRoleId" th-options="user().roles" th-ovalue="UserId" th-otext="Username"></th_select>*@
+                            @*<select class='form-control show-tick input-sm' data-style='btn btn-info btn-sm' data-dropdown-align-right='true' data-bind='selectPicker: selectedRoleId,  selectPickerOptions: { optionsArray: {Options} }'></select>*@
+                            <th_enum th-label="Rolle" th-value="SelectedRoleId" th-type="@typeof(UserRoleType)"></th_enum>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script>
     $(document).ready(function () {

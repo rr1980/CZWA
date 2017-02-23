@@ -37,6 +37,24 @@ namespace CZWA.Services
             }
         }
 
+        private List<UserViewModel> _allusers;
+        public List<UserViewModel> AllUsers
+        {
+            get
+            {
+                if (_allusers == null)
+                {
+                    _allusers = _getAllUsers().Result;
+                }
+                return _allusers;
+            }
+            private set
+            {
+                _allusers = value;
+            }
+        }
+
+
         public LoginService(DataContext context, IHttpContextAccessor httpContextAccessor, ILogger<LoginService> logger)
         {
             _context = context;
@@ -45,9 +63,24 @@ namespace CZWA.Services
             _logger.LogWarning("LoginService init...");
         }
 
-        public  bool HasRole(UserRoleType urt)
+        public bool HasRole(UserRoleType urt)
         {
             return User.Roles.Any(r => r.UserRoleType == urt);
+        }
+
+
+        private async Task<List<UserViewModel>> _getAllUsers()
+        {
+            var result = await _context.GetAllUsers();
+
+            return result.Select(user => new UserViewModel()
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Name = user.Name,
+                Vorname = user.Vorname,
+                Roles = _getRoles(user)
+            }).ToList();
         }
 
         private async Task<UserViewModel> _getUser()

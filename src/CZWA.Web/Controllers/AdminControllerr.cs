@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CZWA.ViewModels;
+using CZWA.Services;
 
 namespace CZWA.Web.Controllers
 {
     public class AdminController : BaseController
     {
         private readonly ILogger _logger;
+        private readonly LoginService _loginService;
 
-        public AdminController(ILogger<HomeController> logger)
+        public AdminController(ILogger<HomeController> logger, LoginService loginService)
         {
             _logger = logger;
+            _loginService = loginService;
         }
 
         [Authorize(Policy = "AdminPolicy")]
         public IActionResult Index()
         {
-            return View(new AdminViewModel());
+            return View(new AdminViewModel()
+            {
+                Users = _loginService.AllUsers
+            });
         }
 
         public IActionResult Error()
