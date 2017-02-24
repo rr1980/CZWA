@@ -11,7 +11,8 @@ window.ViewModels = (function (module) {
 
         self.onClickDelete = function () {
             adminService.delUser(ko.mapping.toJS(self.user)).done(function (response) {
-
+                ko.mapping.fromJS(response.users, {}, self.users);
+                $(".selectpicker").selectpicker('refresh');
             });
         };
 

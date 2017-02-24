@@ -138,8 +138,10 @@ namespace CZWA.Services
 
         public async Task<List<UserViewModel>> DelUser(UserViewModel user)
         {
-            //var usr = await _context.GetUserById(user.UserId);
-
+            var usr = await _context.GetUserById(user.UserId);
+            _delRoles(usr);
+            _context.Remove(usr);
+            _context.SaveChanges();
             return await _getAllUsers();
         }
 
@@ -185,7 +187,6 @@ namespace CZWA.Services
 
             return usr;
         }
-
 
         private User _delRoles(User user)
         {
