@@ -33,7 +33,7 @@ namespace CZWA.Web.TagHelpers
 
         private string template = "";
 
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             Value = TagHelperTools.FirstLetterToLower(Value);
             Id = Id == null ? TagHelperTools.GetID() : Id;

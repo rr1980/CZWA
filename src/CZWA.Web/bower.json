@@ -8,6 +8,7 @@
     "knockout": "*",
     "knockout-mapping": "*",
     "bootstrap-select": "1.10.0",
-    "jquery": "2.2.2"
+    "jquery": "2.2.2",
+    "qunit": "2.1.1"
   }
 }
