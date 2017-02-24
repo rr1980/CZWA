@@ -123,7 +123,7 @@ namespace CZWA.Web
             app.MapWebSocketManager("/admins", serviceProvider.GetService<AdminMessageHandler>());
             app.MapWebSocketManager("/notifications", serviceProvider.GetService<NotificationsMessageHandler>());
 
-            SeedData.Initialize(ctx);
+            //SeedData.Initialize(ctx);
         }
     }
 }

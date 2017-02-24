@@ -192,6 +192,7 @@ namespace CZWA.Services
         {
             var rtus = _context.RoleToUsers.Where(rtu => rtu.UserId == user.UserId);
             _context.RemoveRange(rtus);
+            _context.SaveChanges();
             return user;
         }
     }

@@ -13,11 +13,14 @@ namespace CZWA.DB
     {
         private readonly ILogger _logger;
 
-        public DataContext(DbContextOptions<DataContext> options, ILogger<DataContext> logger)
+        public DataContext(DbContextOptions<DataContext> options, ILogger<DataContext> logger=null)
             : base(options)
         {
-            _logger = logger;
-            _logger.LogWarning("DataContext init...");
+            if (logger != null)
+            {
+                _logger = logger;
+                _logger.LogWarning("DataContext init...");
+            }
         }
 
         public DbSet<User> Users { get; set; }
@@ -26,6 +29,7 @@ namespace CZWA.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             modelBuilder.Entity<RoleToUser>().HasKey(t => new { t.UserId, t.RoleId });
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.Role).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.RoleId);
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.User).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.UserId);
