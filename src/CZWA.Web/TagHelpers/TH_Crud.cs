@@ -21,6 +21,9 @@ namespace CZWA.Web.TagHelpers
         [HtmlAttributeName("th-del")]
         public string Del { get; set; } = "onClickDelete";
 
+        [HtmlAttributeName("th-bind-del")]
+        public string DelBind { get; set; }
+
         [HtmlAttributeName("th-show-save")]
         public bool IsSave { get; set; } = true;
 
@@ -61,7 +64,7 @@ namespace CZWA.Web.TagHelpers
             template += IsSave ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Save}'>Speichern</button>" : "";
             template += IsInsert ? $"<button style='margin-left:10px;' class='btn btn-info btn-sm' data-bind='click: {Insert}'>Einfügen</button>" : "";
             template += IsEdit ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Edit}'>Bearbeiten</button>" : "";
-            template += IsDel ? $"<button style='margin-left:10px;' class='btn btn-danger btn-sm' data-bind='click: {Del}'>Löschen</button>" : "";
+            template += IsDel ? $"<button style='margin-left:10px;' class='btn btn-danger btn-sm' data-bind='click: {Del},{DelBind}'>Löschen</button>" : "";
             template += "</div>";
 
             output.Content.SetHtmlContent(template);

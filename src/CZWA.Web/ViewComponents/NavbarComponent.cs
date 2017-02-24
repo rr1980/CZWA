@@ -15,12 +15,12 @@ namespace CZWA.Web.ViewComponents
 {
     public class NavbarComponent : ViewComponent
     {
-        private readonly LoginService _loginService;
+        private readonly AccountService _accountService;
         private readonly ILogger _logger;
 
-        public NavbarComponent(LoginService loginService, ILogger<NavbarComponent> logger)
+        public NavbarComponent(AccountService accountService, ILogger<NavbarComponent> logger)
         {
-            _loginService = loginService;
+            _accountService = accountService;
             _logger = logger;
             _logger.LogWarning("NavbarComponent init...");
         }
@@ -29,7 +29,7 @@ namespace CZWA.Web.ViewComponents
         {
             return View(new NavbarViewModel()
             {
-                UserViewModel = _loginService.User
+                UserViewModel = _accountService.User
             });
         }
     }

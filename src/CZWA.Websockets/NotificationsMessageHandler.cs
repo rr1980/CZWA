@@ -12,16 +12,16 @@ namespace CZWA.WebSockets
     public class NotificationsMessageHandler : WebSocketHandler
     {
         private readonly UserRoleType urt = UserRoleType.Default;
-        private readonly LoginService _loginService;
+        private readonly AccountService _accountService;
 
-        public NotificationsMessageHandler(WebSocketConnectionManager webSocketConnectionManager, LoginService loginService) : base(webSocketConnectionManager)
+        public NotificationsMessageHandler(WebSocketConnectionManager webSocketConnectionManager, AccountService accountService) : base(webSocketConnectionManager)
         {
-            _loginService = loginService;
+            _accountService = accountService;
         }
 
         public async void TestMethode(WebSocket socket,string name)
         {
-            if (!_loginService.HasRole(urt))
+            if (!_accountService.HasRole(urt))
             {
                 return;
             }

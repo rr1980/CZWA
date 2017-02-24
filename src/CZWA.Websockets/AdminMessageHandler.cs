@@ -14,16 +14,16 @@ namespace CZWA.WebSockets
     public class AdminMessageHandler : WebSocketHandler
     {
         private readonly UserRoleType urt = UserRoleType.Admin;
-        private readonly LoginService _loginService;
+        private readonly AccountService _accountService;
 
-        public AdminMessageHandler(WebSocketConnectionManager webSocketConnectionManager, LoginService loginService) : base(webSocketConnectionManager)
+        public AdminMessageHandler(WebSocketConnectionManager webSocketConnectionManager, AccountService accountService) : base(webSocketConnectionManager)
         {
-            _loginService = loginService;
+            _accountService = accountService;
         }
 
         public async void SaveUser(WebSocket socket, dynamic user)
         {
-            if (!_loginService.HasRole(urt))
+            if (!_accountService.HasRole(urt))
             {
                 return;
             }

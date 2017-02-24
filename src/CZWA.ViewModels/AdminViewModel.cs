@@ -8,5 +8,6 @@ namespace CZWA.ViewModels
     public class AdminViewModel
     {
         public IEnumerable<UserViewModel> Users { get; set; }
+        public List<string> Errors { get; set; }
     }
 }

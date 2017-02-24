@@ -8,32 +8,110 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CZWA.ViewModels;
 using CZWA.Services;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CZWA.Web.Controllers
 {
     public class AdminController : BaseController
     {
         private readonly ILogger _logger;
-        private readonly LoginService _loginService;
+        private readonly AccountService _accountService;
 
-        public AdminController(ILogger<HomeController> logger, LoginService loginService)
+        public AdminController(ILogger<HomeController> logger, AccountService accountService)
         {
             _logger = logger;
-            _loginService = loginService;
+            _accountService = accountService;
         }
 
         [Authorize(Policy = "AdminPolicy")]
         public IActionResult Index()
         {
+            var result = _accountService.AllUsers;
+            result.Insert(0, new UserViewModel()
+            {
+                UserId = -1,
+                ShowName = "Neu...",
+                Roles = new int[] { -1 }
+            });
+
             return View(new AdminViewModel()
             {
-                Users = _loginService.AllUsers
+                Users = result
             });
+        }
+
+        public async Task<AdminViewModel> SaveUser(UserViewModel user)
+        {
+            List<UserViewModel> result;
+
+            if (!ModelState.IsValid)
+            {
+                result = _accountService.AllUsers;
+                result.Insert(0, new UserViewModel()
+                {
+                    UserId = -1,
+                    ShowName = "Neu...",
+                    Roles = new int[] { -1 }
+                });
+
+                return new AdminViewModel()
+                {
+                    Users = result,
+                    Errors = GetModelStateErrors(ModelState)
+                };
+            }
+
+            result = await _accountService.SaveUser(user);
+            result.Insert(0, new UserViewModel()
+            {
+                UserId = -1,
+                ShowName = "Neu...",
+                Roles = new int[] { -1 }
+            });
+
+            return new AdminViewModel()
+            {
+                Users = result,
+            };
+        }
+
+        public async Task<AdminViewModel> DelUser(UserViewModel user)
+        {
+            var result = await _accountService.DelUser(user);
+            result.Insert(0, new UserViewModel()
+            {
+                UserId = -1,
+                ShowName = "Neu...",
+                Roles = new int[] { -1 }
+            });
+
+            return new AdminViewModel()
+            {
+                Users = result,
+            };
         }
 
         public IActionResult Error()
         {
             return View();
+        }
+
+
+        public List<string> GetModelStateErrors(ModelStateDictionary ModelState)
+        {
+            List<string> errorMessages = new List<string>();
+
+            var validationErrors = ModelState.Values.Select(x => x.Errors);
+            validationErrors.ToList().ForEach(ve =>
+            {
+                var errorStrings = ve.Select(x => x.ErrorMessage);
+                errorStrings.ToList().ForEach(em =>
+                {
+                    errorMessages.Add(em);
+                });
+            });
+
+            return errorMessages;
         }
     }
 }

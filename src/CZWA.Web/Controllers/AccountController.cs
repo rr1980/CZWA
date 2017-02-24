@@ -16,11 +16,11 @@ namespace CZWA.Web.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly LoginService _loginService;
+        private readonly AccountService _accountService;
 
-        public AccountController(LoginService loginService)
+        public AccountController(AccountService accountService)
         {
-            _loginService = loginService;
+            _accountService = accountService;
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace CZWA.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool isAuth = await _loginService.Auth(model.Username, model.Password);
+                bool isAuth = await _accountService.Auth(model.Username, model.Password);
                 if (isAuth)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))

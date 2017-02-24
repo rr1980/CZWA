@@ -3,27 +3,39 @@ window.ViewModels = (function (module) {
     module.AdminViewData = function (data) {
         var self = this;
         ko.mapping.fromJS(data, {}, self);
+        var adminService = new Services.AdminService();
 
         self.selectedUserId = ko.observable();
         self.user = ko.observable(self.users()[0]);
 
-        //var wService = new Services.WebSocketService();
-
-        self.onClickInsert = function () {
-            console.debug(self.user());
-            connection_admin.invoke("SaveUser", ko.mapping.toJS(self.user));
-        };
-
-        self.onClickEdit = function () {
-            console.debug("onClickEdit");
-        };
 
         self.onClickDelete = function () {
-            console.debug("onClickDelete");
+            adminService.delUser(ko.mapping.toJS(self.user)).done(function (response) {
+
+            });
         };
 
         self.onClickSave = function () {
-            console.debug("onClickSave");
+            var userna = self.user().username();
+            adminService.saveUser(ko.mapping.toJS(self.user)).done(function (response) {
+                if (response.errors === null) {
+                    ko.mapping.fromJS(response.users, {}, self.users);
+                    for (var i = 0; i < self.users().length; i++) {
+                        if (self.users()[i].username() === userna) {
+                            self.selectedUserId(self.users()[i].userId());
+                            break;
+                        }
+                    }
+                    $(".selectpicker").selectpicker('refresh');
+                }
+                else {
+                    $("#errors").html("");
+
+                    for (var j = 0; j < response.errors.length; ji++) {
+                        $("#errors").append("<li style='color:red;'>" + response.errors[j] + "</li>");
+                    }
+                }
+            });
         };
 
 

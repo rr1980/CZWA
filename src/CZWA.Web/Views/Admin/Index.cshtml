@@ -16,7 +16,7 @@
                             <h5 class="control-label">Benutzer</h5>
                         </div>
                         <div class="col-md-3">
-                            <th_select th-isFC="false" th-withLabel="false" th-label="User" th-value="selectedUserId" th-options="Users" th-ovalue="UserId" th-otext="Username"></th_select>
+                            <th_select th-isFC="false" th-withLabel="false" th-label="User" th-value="selectedUserId" th-options="Users" th-ovalue="UserId" th-otext="ShowName"></th_select>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,15 @@
                     </div>
                     <div class="row row-buffTop">
                         <th_enum th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>
-                        <th_crud th-show-edit="false" th-col="4"></th_crud>
+                        <th_crud th-show-edit="false"
+                                 th-show-insert="false"
+                                 th-bind-del="disable: (selectedUserId()<1)"
+                                 th-col="4"></th_crud>
+                    </div>
+                    <div class="row row-buffTop">
+                        <ul id="errors">
+
+                        </ul>
                     </div>
                 </div>
             </div>

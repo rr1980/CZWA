@@ -14,27 +14,18 @@ using Microsoft.Extensions.Logging;
 
 namespace CZWA.Services
 {
-    public class LoginService 
+    public class AccountService
     {
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
-        //private UserViewModel _user;
         public UserViewModel User
         {
             get
             {
-                //if (_user == null)
-                //{
-                //    _user = _getUser().Result;
-                //}
                 return _getUser().Result;
             }
-            //private set
-            //{
-            //    _user = value;
-            //}
         }
 
         private List<UserViewModel> _allusers;
@@ -55,12 +46,12 @@ namespace CZWA.Services
         }
 
 
-        public LoginService(DataContext context, IHttpContextAccessor httpContextAccessor, ILogger<LoginService> logger)
+        public AccountService(DataContext context, IHttpContextAccessor httpContextAccessor, ILogger<AccountService> logger)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
-            _logger.LogWarning("LoginService init...");
+            _logger.LogWarning("AccountService init...");
         }
 
         public bool HasRole(UserRoleType urt)
@@ -71,16 +62,19 @@ namespace CZWA.Services
 
         private async Task<List<UserViewModel>> _getAllUsers()
         {
-            var result = await _context.GetAllUsers();
+            var users = await _context.GetAllUsers();
 
-            return result.Select(user => new UserViewModel()
+            var result = users.Select(user => new UserViewModel()
             {
                 UserId = user.UserId,
                 Username = user.Username,
+                ShowName = user.Username,
                 Name = user.Name,
                 Vorname = user.Vorname,
                 Roles = _getRoles(user)
             }).ToList();
+
+            return result;
         }
 
         private async Task<UserViewModel> _getUser()
@@ -97,6 +91,7 @@ namespace CZWA.Services
                 Roles = _getRoles(user)
             };
         }
+
 
         private IEnumerable<int> _getRoles(User user)
         {
@@ -139,6 +134,64 @@ namespace CZWA.Services
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<UserViewModel>> DelUser(UserViewModel user)
+        {
+            //var usr = await _context.GetUserById(user.UserId);
+
+            return await _getAllUsers();
+        }
+
+        public async Task<List<UserViewModel>> SaveUser(UserViewModel user)
+        {
+            var usr = await _context.GetUserById(user.UserId);
+
+            if (usr == null)
+            {
+                usr = new User();
+                usr = _updateUser(usr, user);
+            }
+            else
+            {
+                usr = _delRoles(usr);
+                usr = _updateUser(usr, user);
+            }
+
+            _context.SaveChanges();
+
+            return await _getAllUsers();
+        }
+
+        private User _updateUser(User usr, UserViewModel user)
+        {
+            usr.Name = user.Name;
+            usr.Vorname = user.Vorname;
+            usr.Username = user.Username;
+
+            if (user.Roles != null)
+            {
+                foreach (var role in user.Roles)
+                {
+                    var rtu = new RoleToUser()
+                    {
+                        Role = role != -1 ? _context.Roles.First(r => r.UserRoleType == (UserRoleType)role) : _context.Roles.First(r => r.UserRoleType == UserRoleType.Default),
+                        User = usr
+                    };
+
+                    _context.RoleToUsers.Add(rtu);
+                }
+            }
+
+            return usr;
+        }
+
+
+        private User _delRoles(User user)
+        {
+            var rtus = _context.RoleToUsers.Where(rtu => rtu.UserId == user.UserId);
+            _context.RemoveRange(rtus);
+            return user;
         }
     }
 }

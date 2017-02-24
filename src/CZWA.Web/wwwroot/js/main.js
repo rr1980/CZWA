@@ -184,10 +184,10 @@
 //# sourceMappingURL=WebSocketManager.js.map
 
 var uri_notifications = "ws://localhost:63497/notifications";
-var uri_admin = "ws://localhost:63497/admins";
+//var uri_admin = "ws://localhost:63497/admins";
 var connection = new WebSocketManager.Connection(uri_notifications);
-var connection_admin = new WebSocketManager.Connection(uri_admin);
-connection_admin.enableLogging = true;
-connection_admin.start();
+//var connection_admin = new WebSocketManager.Connection(uri_admin);
+//connection_admin.enableLogging = true;
+//connection_admin.start();
 connection.enableLogging = true;
 connection.start();
