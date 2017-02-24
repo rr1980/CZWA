@@ -1,4 +1,6 @@
 ﻿
+window.isLoading = ko.observable(false);
+
 ko.bindingHandlers.selectPicker = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         if ($(element).is('select')) {

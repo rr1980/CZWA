@@ -2,16 +2,17 @@
     module.AdminService = function () {
         var service = {};
         var serviceurl = "http://" + window.location.host + "/Admin/";
-        var complete = function () {
-            
-        };
+        
         var start = function (message) {
-            
+            window.isLoading(true);
+        };
+
+        var complete = function () {
+            window.isLoading(false);
         };
 
         service.saveUser = function (user) {
             start();
-            //console.debug(mainItem);
             return $.ajax({
                 url: serviceurl + "SaveUser",
                 data: {
@@ -23,12 +24,11 @@
                 console.debug(a);
                 console.debug(b);
                 console.debug(c);
-            }).always(complete);
+            }).complete(complete);
         };
 
         service.delUser = function (user) {
             start();
-            //console.debug(mainItem);
             return $.ajax({
                 url: serviceurl + "DelUser",
                 data: {
@@ -40,7 +40,7 @@
                 console.debug(a);
                 console.debug(b);
                 console.debug(c);
-            }).always(complete);
+            }).complete(complete);
         };
 
         return service;

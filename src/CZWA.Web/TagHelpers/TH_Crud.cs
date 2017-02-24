@@ -61,10 +61,10 @@ namespace CZWA.Web.TagHelpers
             template += $"<label class='control-label' for='{Id}'>&nbsp;</label>";
             template += "</div>";
             template += "<div class='form-group-sm pull-right'>";
-            template += IsSave ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Save}'>Speichern</button>" : "";
-            template += IsInsert ? $"<button style='margin-left:10px;' class='btn btn-info btn-sm' data-bind='click: {Insert}'>Einfügen</button>" : "";
-            template += IsEdit ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Edit}'>Bearbeiten</button>" : "";
-            template += IsDel ? $"<button style='margin-left:10px;' class='btn btn-danger btn-sm' data-bind='click: {Del},{DelBind}'>Löschen</button>" : "";
+            template += IsSave ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Save},disable: window.isLoading'>Speichern</button>" : "";
+            template += IsInsert ? $"<button style='margin-left:10px;' class='btn btn-info btn-sm' data-bind='click: {Insert},disable: window.isLoading'>Einfügen</button>" : "";
+            template += IsEdit ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Edit},disable: window.isLoading'>Bearbeiten</button>" : "";
+            template += IsDel ? $"<button style='margin-left:10px;' class='btn btn-danger btn-sm' data-bind='click: {Del},disable: window.isLoading,{DelBind}'>Löschen</button>" : "";
             template += "</div>";
 
             output.Content.SetHtmlContent(template);

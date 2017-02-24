@@ -10,7 +10,7 @@ window.ViewModels = (function (module) {
 
 
         self.onClickDelete = function () {
-            adminService.delUser(ko.mapping.toJS(self.user)).done(function (response) {
+            adminService.delUser(ko.mapping.toJS(self.user)).success(function (response) {
                 ko.mapping.fromJS(response.users, {}, self.users);
                 $(".selectpicker").selectpicker('refresh');
             });
@@ -18,7 +18,8 @@ window.ViewModels = (function (module) {
 
         self.onClickSave = function () {
             var userna = self.user().username();
-            adminService.saveUser(ko.mapping.toJS(self.user)).done(function (response) {
+            adminService.saveUser(ko.mapping.toJS(self.user)).success(function (response) {
+                $("#errors").html("");
                 if (response.errors === null) {
                     ko.mapping.fromJS(response.users, {}, self.users);
                     for (var i = 0; i < self.users().length; i++) {
@@ -30,17 +31,15 @@ window.ViewModels = (function (module) {
                     $(".selectpicker").selectpicker('refresh');
                 }
                 else {
-                    $("#errors").html("");
-
-                    for (var j = 0; j < response.errors.length; ji++) {
+                    for (var j = 0; j < response.errors.length; j++) {
                         $("#errors").append("<li style='color:red;'>" + response.errors[j] + "</li>");
                     }
                 }
             });
         };
 
-
         self.selectedUserId.subscribe(function () {
+            $("#errors").html("");
             for (var i = 0; i < self.users().length; i++) {
                 if (self.selectedUserId() === self.users()[i].userId()) {
                     self.user(self.users()[i]);
@@ -49,7 +48,6 @@ window.ViewModels = (function (module) {
             }
             $(".selectpicker").selectpicker('refresh');
         });
-
     };
     return module;
 }(this.ViewModels || {}));
