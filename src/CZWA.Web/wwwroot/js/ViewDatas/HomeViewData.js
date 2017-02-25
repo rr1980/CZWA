@@ -25,7 +25,9 @@ window.ViewModels = (function (module) {
             //    console.debug(response);
             //});
 
-            connection.invoke("TestMethode","Riesner");
+            connection.invoke("TestMethode", "Riesner");
+
+            console.debug(getCookie("rrAuth"));
         };
     };
     return module;

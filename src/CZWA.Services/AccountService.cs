@@ -127,7 +127,7 @@ namespace CZWA.Services
                 await _httpContextAccessor.HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrinciple, new AuthenticationProperties
                 {
                     ExpiresUtc = DateTime.UtcNow.AddHours(12),
-                    IsPersistent = false,
+                    IsPersistent = true,            // remember me!?
                     AllowRefresh = true
                 });
 
