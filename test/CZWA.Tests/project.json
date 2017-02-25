@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0-*",
+  "testRunner": "mstest",
+
+  "dependencies": {
+    "CZWA.Authorization": "1.0.0-*",
+    "CZWA.Common": "1.0.0-*",
+    "CZWA.DB": "1.0.0-*",
+    "CZWA.DB_Migration": "1.0.0-*",
+    "CZWA.Entitys": "1.0.0-*",
+    "CZWA.Services": "1.0.0-*",
+    "CZWA.ViewModels": "1.0.0-*",
+    "CZWA.Web": { "target": "project" },
+    "CZWA.Websockets": "1.0.0-*",
+    "dotnet-test-mstest": "1.1.2-preview",
+    "Microsoft.AspNetCore.TestHost": "1.1.0",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.1.0"
+    },
+    "Moq": "4.7.0",
+    "MSTest.TestFramework": "1.1.11"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
+    }
+  }
+}

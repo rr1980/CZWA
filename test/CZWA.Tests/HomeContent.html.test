@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page - Main</title>
+    <script>
+        window.ViewModels = {};
+        window.Services = {};
+    </script>
+    
+    
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="sr-only" /><script>!function(a,b,c,d){var e,f=document,g=f.getElementsByTagName("SCRIPT"),h=g[g.length-1].previousElementSibling,i=f.defaultView&&f.defaultView.getComputedStyle?f.defaultView.getComputedStyle(h):h.currentStyle;if(i&&i[a]!==b)for(e=0;e<c.length;e++)f.write('<link href="'+c[e]+'" '+d+"/>")}("position","absolute",["\/lib\/bootstrap\/dist\/css\/bootstrap.min.css"], "rel=\u0022stylesheet\u0022 ");</script>
+        <link rel="stylesheet" href="/css/site.min.css?v=SZ56l9iAMjwsC3lg_8ONpBnEfYbGculXCgb-yhj7aKs" />
+    
+</head>
+<body id="appBody">
+    <div class="container body-content">
+        
+        <div id="navbarContent" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Main</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/">Home</a></li>
+                            <li><a href="/Admin">Admin</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <span class="navbar-brand usr-name" data-bind="text: userViewModel.username"></span>
+                        </li>
+                        <li>
+                            <form data-bind="submit: onClickLogout">
+
+                                <button type="submit" class="btn btn-info btn-sm navbar-btn">
+                                    <span class="glyphicon glyphicon-log-out"></span> Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var viewmodel = new ViewModels.NavBarViewData({"userViewModel":{"userId":1,"name":"Riesner","vorname":"Rene","username":"rr1980","showName":null,"roles":[0,1]}});
+        ko.applyBindings(viewmodel, document.getElementById('navbarContent'));
+    </script>
+
+<div id="homeView" class="container-fluid">
+    <h1>
+        Hallo...
+    </h1>
+
+    <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
+    <button id="sendButton" data-bind="click: onClickSend">Send</button>
+
+    <ul id="messages" data-bind="foreach: msgs">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var viewmodel = new ViewModels.HomeViewData({});
+        ko.applyBindings(viewmodel, document.getElementById('homeView'));
+    });
+</script>
+        <hr />
+        <footer>
+            <p>&copy; 2017 - Main</p>
+        </footer>
+    </div>
+    
+</body>
+</html>

@@ -50,8 +50,11 @@ namespace CZWA.Services
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
-            _logger.LogWarning("AccountService init...");
+            if (logger != null)
+            {
+                _logger = logger;
+                _logger.LogWarning("AccountService init...");
+            }
         }
 
         public bool HasRole(UserRoleType urt)

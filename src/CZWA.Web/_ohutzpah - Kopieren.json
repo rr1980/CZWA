@@ -1,0 +1,32 @@
+﻿//{
+//  "Framework": "qunit",
+
+//  "RootReferencePathMode": "SettingsFileDirectory",
+//  "Server": {
+//    "Enabled": true
+//  },
+
+
+//  "References": [
+//    {
+//      "Path": "wwwroot/lib/knockout/dist/",
+//      "Includes": [ "*.js" ]
+//    },
+//    {
+//      "Path": "wwwroot/lib/knockout-mapping",
+//      "Includes": [ "*.js" ],
+//      "Excludes": [ "*mappingBehaviors.js", "*proxyDependentObservableBehaviors.js", "*issues.js", "*searchReplace.js" ]
+//    },
+//    {
+//      "Path": "wwwroot/js/",
+//      "Includes": [ "*.js" ],
+//      "Excludes": [ "*tests*", "_references.js" ]
+//    }
+//  ],
+
+//  "Tests": [
+//    {
+//      "Path": "wwwroot/js/Tests/AdminViewData.tests.js"
+//    }
+//  ]
+//}

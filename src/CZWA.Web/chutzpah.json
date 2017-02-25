@@ -1,32 +1,11 @@
 ﻿{
-  "Framework": "qunit",
-
-  "RootReferencePathMode": "SettingsFileDirectory",
-  "Server": {
-    "Enabled": true
-  },
-
-
-  "References": [
-    {
-      "Path": "wwwroot/lib/knockout/dist/",
-      "Includes": [ "*.js" ]
-    },
-    {
-      "Path": "wwwroot/lib/knockout-mapping",
-      "Includes": [ "*.js" ],
-      "Excludes": [ "*mappingBehaviors.js", "*proxyDependentObservableBehaviors.js", "*issues.js", "*searchReplace.js" ]
-    },
-    {
-      "Path": "wwwroot/js/",
-      "Includes": [ "*.js" ],
-      "Excludes": [ "*tests*", "_references.js" ]
-    }
-  ],
-
+  "CodeCoverageExcludes": [ "*jquery*.js", "*knockout*.js", "*bootstrap*.js", "*mappingBehaviors.js", "*proxyDependentObservableBehaviors.js", "*issues.js", "*searchReplace.js" ],
+  "TestPattern": "this\\.(testCase|test)\\([\"'](?<TestName>.*)[\"']",
   "Tests": [
     {
-      "Path": "wwwroot/js/Tests/AdminViewData.tests.js"
+      //"Path": "../../test/CZWA.Tests/Js/AdminViewData.tests.js"
+      "Excludes": [ "*jquery*.js", "*knockout*.js", "*bootstrap*.js" ],
+      "Path": "C:/Users/rr1980/Documents/Visual Studio 2015/Projects/CZWA/test/CZWA.Tests/Js/"
     }
   ]
 }
