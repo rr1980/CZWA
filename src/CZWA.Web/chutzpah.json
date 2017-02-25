@@ -1,11 +1,13 @@
 ﻿{
+  "RootReferencePathMode": "SettingsFileDirectory",
   "CodeCoverageExcludes": [ "*jquery*.js", "*knockout*.js", "*bootstrap*.js", "*mappingBehaviors.js", "*proxyDependentObservableBehaviors.js", "*issues.js", "*searchReplace.js" ],
   "TestPattern": "this\\.(testCase|test)\\([\"'](?<TestName>.*)[\"']",
   "Tests": [
     {
       //"Path": "../../test/CZWA.Tests/Js/AdminViewData.tests.js"
       "Excludes": [ "*jquery*.js", "*knockout*.js", "*bootstrap*.js" ],
-      "Path": "C:/Users/rr1980/Documents/Visual Studio 2015/Projects/CZWA/test/CZWA.Tests/Js/"
+      "Path": "../../test/CZWA.Tests/Js/"
+      //"Path": "D:/Projects/CZWA/test/CZWA.Tests/Js"
     }
   ]
 }

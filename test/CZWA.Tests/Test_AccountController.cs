@@ -20,74 +20,97 @@ using Moq;
 
 namespace CZWA.Tests
 {
-    [TestClass]
+    [TestClass, Area("Rene")]
     public class Test_AccountController
     {
+        string path_dt = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
+        string path_nb = @"D:\Projects\CZWA\src\CZWA.Web";
+
+        string content_path_dt = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\test\CZWA.Tests\";
+        string content_path_nb = @"D:\Projects\CZWA\test\CZWA.Tests\";
+
         private TestServer _server;
         private HttpClient _client;
-        private string _homeContent;
 
+        private HttpRequestMessage _httpRequestMessage;
+
+        private FormUrlEncodedContent _postLoginContent;
+        private string _homeContent;
+        
         [TestInitialize]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
         public void TestInitialize()
         {
-            _server = new TestServer(new WebHostBuilder().UseContentRoot(@"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web").UseStartup<Startup>());
+            _server = new TestServer(new WebHostBuilder().UseContentRoot(path_nb).UseStartup<Startup>());
             _client = _server.CreateClient();
             _client.BaseAddress = new Uri("http://localhost:63497/");
 
-            _homeContent = File.ReadAllText(@"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\test\CZWA.Tests\HomeContent.html.test");
+            _postLoginContent = _getLoginContent();
+
+            _homeContent = File.ReadAllText(content_path_nb + "HomeContent.html.test");
         }
 
         [TestMethod]
+        [Owner("Rene")]
         [TestCategory("Smoke")]
-        [TestCategory("regression")]
         public void InitAspNet()
         {
             Assert.IsNotNull(_server);
             Assert.IsNotNull(_client);
         }
 
-        [Description("test 123456"), TestCategory("Edit Tests"), TestCategory("Non-Smoke"), TestMethod]
+        [TestMethod]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
         public async Task Get_Index()
         {
             var response = await _client.GetAsync("/");
             Assert.AreEqual(HttpStatusCode.Found, response.StatusCode);
         }
 
-        [Description("test 123456"), TestCategory("Edit Tests"), TestCategory("Non-Smoke"), TestMethod]
+        [TestMethod]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
         public async Task Get_Account_Login()
         {
             var response = await _client.GetAsync("/Account/Login");
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Description("test 123456"), TestCategory("Edit Tests"), TestCategory("Non-Smoke"), TestMethod]
-        public async Task Post_Account_Login()
+        [TestMethod]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
+        public async Task Post_Account_Login_Logout()
         {
-            LoginViewModel vm = new LoginViewModel()
-            {
-                Username = "rr1980",
-                Password = "12003",
-                ReturnUrl = "/"
-            };
+            var response = await _client.PostAsync("/Account/Login", _postLoginContent);
+            Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
 
+            response = await _client.SendAsync(_getRequest("Home/", response));
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var body = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual(_homeContent.Trim(), body.Trim());
+
+            response = await _client.GetAsync("/Account/Logout");
+            Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
+
+            response = await _client.SendAsync(_getRequest("Home/", response));
+            Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
+        }
+
+        private FormUrlEncodedContent _getLoginContent()
+        {
             var nameValueCollection = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("Username", "rr1980"),
                 new KeyValuePair<string, string>("Password", "12003"),
                 new KeyValuePair<string, string>("ReturnUrl", "/"),
             };
-            var content = new FormUrlEncodedContent(nameValueCollection);
-
-            var response = await _client.PostAsync("/Account/Login", content);
-            Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
-
-            response = await _client.SendAsync(GetRequest("Home/", response));
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            var body = await response.Content.ReadAsStringAsync();
-            Assert.AreEqual(_homeContent.Trim(), body.Trim());
+            return new FormUrlEncodedContent(nameValueCollection);
         }
 
-        private HttpRequestMessage GetRequest(string path, HttpResponseMessage response)
+        private HttpRequestMessage _getRequest(string path, HttpResponseMessage response)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, path);
             IEnumerable<string> values;
