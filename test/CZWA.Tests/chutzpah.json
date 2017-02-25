@@ -1,4 +1,5 @@
 ﻿{
+  "RootReferencePathMode": "SettingsFileDirectory",
   "CodeCoverageExcludes": [ "*jquery*.js", "*knockout*.js", "*bootstrap*.js", "*mappingBehaviors.js", "*proxyDependentObservableBehaviors.js", "*issues.js", "*searchReplace.js" ],
   "TestPattern": "this\\.(testCase|test)\\([\"'](?<TestName>.*)[\"']",
   "Tests": [

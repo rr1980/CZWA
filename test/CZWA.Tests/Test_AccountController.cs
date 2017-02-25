@@ -20,11 +20,21 @@ using Moq;
 
 namespace CZWA.Tests
 {
-    [TestClass]
+    [TestClass, Area("Rene")]
     public class Test_AccountController
     {
+        string path_dt = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
+        string path_nb = @"D:\Projects\CZWA\src\CZWA.Web";
+
+        string content_path_dt = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\test\CZWA.Tests\";
+        string content_path_nb = @"D:\Projects\CZWA\test\CZWA.Tests\";
+
         private TestServer _server;
         private HttpClient _client;
+
+        private HttpRequestMessage _httpRequestMessage;
+
+        private FormUrlEncodedContent _postLoginContent;
         private string _homeContent;
         string path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
         //string path = @"D:\Projects\CZWA\src\CZWA.Web";
@@ -34,6 +44,8 @@ namespace CZWA.Tests
         //string content_path = @"D:\Projects\CZWA\test\CZWA.Tests\";
 
         [TestInitialize]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
         public void TestInitialize()
         {
             _server = new TestServer(new WebHostBuilder().UseContentRoot(path).UseStartup<Startup>());
@@ -45,22 +57,26 @@ namespace CZWA.Tests
         }
 
         [TestMethod]
+        [Owner("Rene")]
         [TestCategory("Smoke")]
-        [TestCategory("regression")]
         public void InitAspNet()
         {
             Assert.IsNotNull(_server);
             Assert.IsNotNull(_client);
         }
 
-        [Description("test 123456"), TestCategory("Edit Tests"), TestCategory("Non-Smoke"), TestMethod]
+        [TestMethod]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
         public async Task Get_Index()
         {
             var response = await _client.GetAsync("/");
             Assert.AreEqual(HttpStatusCode.Found, response.StatusCode);
         }
 
-        [Description("test 123456"), TestCategory("Edit Tests"), TestCategory("Non-Smoke"), TestMethod]
+        [TestMethod]
+        [Owner("Rene")]
+        [TestCategory("Smoke")]
         public async Task Get_Account_Login()
         {
             var response = await _client.GetAsync("/Account/Login");
