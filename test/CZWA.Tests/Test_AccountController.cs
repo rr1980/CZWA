@@ -23,23 +23,13 @@ namespace CZWA.Tests
     [TestClass, Area("Rene")]
     public class Test_AccountController
     {
-        string path_dt = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
-        string path_nb = @"D:\Projects\CZWA\src\CZWA.Web";
-
-        string content_path_dt = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\test\CZWA.Tests\";
-        string content_path_nb = @"D:\Projects\CZWA\test\CZWA.Tests\";
-
         private TestServer _server;
         private HttpClient _client;
-
-        private HttpRequestMessage _httpRequestMessage;
-
         private FormUrlEncodedContent _postLoginContent;
         private string _homeContent;
+
         string path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
         //string path = @"D:\Projects\CZWA\src\CZWA.Web";
-
-        private FormUrlEncodedContent _postLoginContent;
         string content_path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\test\CZWA.Tests\";
         //string content_path = @"D:\Projects\CZWA\test\CZWA.Tests\";
 
