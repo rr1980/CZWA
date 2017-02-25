@@ -56,7 +56,7 @@ namespace CZWA.Web.TagHelpers
 
             if (WithLabel)
             {
-                template += $"<label class='control-label' for='{Id}'>{Label}</label>";
+                template += $"<label class='control-label'>{Label}</label>";
             }
 
             template += $"<select class='form-control show-tick input-sm' data-style='btn btn-info btn-sm' data-bind='selectPicker: {Value}, optionsText: \"{OptionsText}\", optionsValue : \"{OptionsValue}\",  selectPickerOptions: {{ optionsArray: {Options} }}'></select>";

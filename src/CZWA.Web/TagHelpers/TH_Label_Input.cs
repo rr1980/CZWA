@@ -38,8 +38,8 @@ namespace CZWA.Web.TagHelpers
                 output.TagMode = TagMode.StartTagAndEndTag;
             }
 
-            template += $"<label class='control-label' for='{Id}'>{Label}</label>";
-            template += $"<input class='form-control' id='{Id}' data-bind='value: {Input}'></input>";
+            template += $"<label class='control-label'>{Label}</label>";
+            template += $"<input class='form-control' data-bind='value: {Input}'></input>";
 
             output.Content.SetHtmlContent(template);
 

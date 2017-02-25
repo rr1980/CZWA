@@ -5,28 +5,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using CZWA.DB;
-using CZWA.ViewModels;
 using CZWA.Web;
-using CZWA.Web.Controllers;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace CZWA.Tests
 {
     [TestClass, Area("Rene")]
-    public class Test_AccountController
+    public class Test_AdminController
     {
         private TestServer _server;
         private HttpClient _client;
         private FormUrlEncodedContent _postLoginContent;
-        private string _homeContent;
+        //private string _adminContent;
 
         string path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
         //string path = @"D:\Projects\CZWA\src\CZWA.Web";
@@ -42,7 +36,7 @@ namespace CZWA.Tests
             _client.BaseAddress = new Uri("http://localhost:63497/");
 
             _postLoginContent = _getLoginContent();
-            //_homeContent = File.ReadAllText(content_path + "HomeContent.html.test");
+            //_adminContent = File.ReadAllText(content_path + "AdminContent.html.test");
         }
 
         [TestMethod]
@@ -57,38 +51,39 @@ namespace CZWA.Tests
         [TestCategory("Smoke")]
         public async Task Get_Index()
         {
-            var response = await _client.GetAsync("/");
+            var response = await _client.GetAsync("/Admin");
             Assert.AreEqual(HttpStatusCode.Found, response.StatusCode);
         }
 
         [TestMethod]
         [TestCategory("Smoke")]
-        public async Task Get_Account_Login()
-        {
-            var response = await _client.GetAsync("/Account/Login");
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-        }
-
-        [TestMethod]
-        [TestCategory("Smoke")]
-        public async Task Post_Account_Login_Logout()
+        public async Task Post_Admin_Login_Logout()
         {
             var response = await _client.PostAsync("/Account/Login", _postLoginContent);
             Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
 
-            response = await _client.SendAsync(_getRequest("Home/", response));
+            response = await _client.SendAsync(_getRequest("Admin/", response));
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var body = await response.Content.ReadAsStringAsync();
-            //Assert.AreEqual(_homeContent.Trim(), body.Trim());
-            Assert.IsTrue(body.Trim().Length > 10);
+            //Assert.AreEqual(_adminContent.Trim(), body.Trim());
+            Assert.IsTrue(body.Trim().Length>10);
+
+            // Todo Post und check Benutzer änderungen speichern
+
 
             response = await _client.GetAsync("/Account/Logout");
             Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
 
-            response = await _client.SendAsync(_getRequest("Home/", response));
+            response = await _client.SendAsync(_getRequest("Admin/", response));
             Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
         }
+
+
+
+
+
+
 
         private FormUrlEncodedContent _getLoginContent()
         {

@@ -49,7 +49,7 @@ namespace CZWA.Web.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            Id = Id == null ? TagHelperTools.GetID() : Id;
+            Id = Id == null ? TagHelperTools.GetID() : Id;  // Todo Was nun?
 
             if (IsFormControl)
             {
@@ -58,7 +58,7 @@ namespace CZWA.Web.TagHelpers
                 output.TagMode = TagMode.StartTagAndEndTag;
             }
             template += "<div class='form-group-sm col-md-12'>";
-            template += $"<label class='control-label' for='{Id}'>&nbsp;</label>";
+            template += $"<label class='control-label'>&nbsp;</label>";
             template += "</div>";
             template += "<div class='form-group-sm pull-right'>";
             template += IsSave ? $"<button style='margin-left:10px;' class='btn btn-warning btn-sm' data-bind='click: {Save},disable: window.isLoading'>Speichern</button>" : "";
