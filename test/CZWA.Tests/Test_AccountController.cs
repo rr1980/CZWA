@@ -28,8 +28,8 @@ namespace CZWA.Tests
         private FormUrlEncodedContent _postLoginContent;
         private string _homeContent;
 
-        string path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
-        //string path = @"D:\Projects\CZWA\src\CZWA.Web";
+        //string path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
+        string path = @"D:\Projects\CZWA\src\CZWA.Web";
         //string content_path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\test\CZWA.Tests\";
         //string content_path = @"D:\Projects\CZWA\test\CZWA.Tests\";
 
