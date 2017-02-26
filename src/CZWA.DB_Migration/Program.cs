@@ -92,7 +92,7 @@ namespace CZWA.DB_Migration
                     else
                     {
                         Console.WriteLine("Database existiert bereits...");
-                        return;
+                        //return;
 
                     }
                     Console.WriteLine("Erzeuge Daten...");

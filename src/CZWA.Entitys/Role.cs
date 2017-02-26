@@ -11,6 +11,7 @@ namespace CZWA.Entitys
         public int RoleId { get; set; }
         public UserRoleType UserRoleType { get; set; }
 
+        //public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<RoleToUser> RoleToUsers { get; set; }
     }
 }

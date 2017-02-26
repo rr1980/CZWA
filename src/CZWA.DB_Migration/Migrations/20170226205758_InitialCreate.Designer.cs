@@ -9,7 +9,7 @@ using CZWA.Common;
 namespace CZWA.DB_Migration.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20170226200148_InitialCreate")]
+    [Migration("20170226205758_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

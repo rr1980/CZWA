@@ -4,7 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CZWA.Common;
-using CZWA.DB;
+using CZWA.DB_Migration;
+//using CZWA.DB;
 using CZWA.Entitys;
 using CZWA.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -60,7 +61,14 @@ namespace CZWA.Services
         public async Task<bool> HasRole(UserRoleType urt)
         {
             var user = await GetUser();
-            return user.Roles.Any(r => r == (int)urt);
+            if (user != null)
+            {
+                return user.Roles.Any(r => r == (int)urt);
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -86,14 +94,21 @@ namespace CZWA.Services
             var id = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             User user = await _context.GetUserById(id);
 
-            return new UserViewModel()
+            if (user != null)
             {
-                UserId = user.UserId,
-                Username = user.Username,
-                Name = user.Name,
-                Vorname = user.Vorname,
-                Roles = _getRoles(user)
-            };
+                return new UserViewModel()
+                {
+                    UserId = user.UserId,
+                    Username = user.Username,
+                    Name = user.Name,
+                    Vorname = user.Vorname,
+                    Roles = _getRoles(user)
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

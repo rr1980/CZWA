@@ -42,7 +42,6 @@ namespace CZWA.DB_Migration
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<RoleToUser>().HasKey(t => new { t.UserId, t.RoleId });
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.Role).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.RoleId);
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.User).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.UserId);
@@ -51,18 +50,21 @@ namespace CZWA.DB_Migration
         public async Task<User> GetUserById(int id)
         {
             var usr = (User)await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == id);
+            //var usr = (User)await Users.SingleOrDefaultAsync(u => u.UserId == id);
             return usr;
         }
 
         public async Task<User> GetUser(string username, string password)
         {
             var usr = (User)await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
+            //var usr = (User)await Users.SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
             return usr;
         }
 
         public async Task<List<User>> GetAllUsers()
         {
             var usrs = await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).ToListAsync();
+            //var usrs = await Users.ToListAsync();
             return usrs;
         }
     }
