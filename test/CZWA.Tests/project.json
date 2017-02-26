@@ -5,7 +5,6 @@
   "dependencies": {
     "CZWA.Authorization": "1.0.0-*",
     "CZWA.Common": "1.0.0-*",
-    "CZWA.DB": "1.0.0-*",
     "CZWA.DB_Migration": "1.0.0-*",
     "CZWA.Entitys": "1.0.0-*",
     "CZWA.Services": "1.0.0-*",

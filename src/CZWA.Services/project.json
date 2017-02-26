@@ -3,7 +3,6 @@
 
   "dependencies": {
     "CZWA.Common": "1.0.0-*",
-    "CZWA.DB": "1.0.0-*",
     "CZWA.DB_Migration": "1.0.0-*",
     "CZWA.Entitys": "1.0.0-*",
     "CZWA.ViewModels": "1.0.0-*",
