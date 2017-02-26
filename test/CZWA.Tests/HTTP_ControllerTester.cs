@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace CZWA.Tests
 {
@@ -19,25 +20,20 @@ namespace CZWA.Tests
         protected HttpClient _client;
         protected FormUrlEncodedContent _postLoginContent;
 
-        //string path = @"C:\Users\rr1980\Documents\Visual Studio 2015\Projects\CZWA\src\CZWA.Web";
-        string path = @"D:\Projects\CZWA\src\CZWA.Web";
-
         public HTTP_ControllerTester()
         {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), @"../../src/CZWA.Web/");
+
             _server = new TestServer(new WebHostBuilder().UseContentRoot(path).UseStartup<Startup>());
+            Assert.IsNotNull(_server);
+
             _client = _server.CreateClient();
+            Assert.IsNotNull(_client);
+
             _client.BaseAddress = new Uri("http://localhost:63497/");
 
             _postLoginContent = _getLoginContent();
-        }
-
-        public async Task InitAspNet()
-        {
-            await Task.Run(() =>
-            {
-                Assert.IsNotNull(_server);
-                Assert.IsNotNull(_client);
-            });
+            Assert.IsNotNull(_postLoginContent);
         }
 
         public async Task Get(string path, HttpStatusCode expectedHttpStatusCode)
