@@ -23,7 +23,7 @@ namespace CZWA.WebSockets
 
         public async void SaveUser(WebSocket socket, dynamic user)
         {
-            if (!_accountService.HasRole(urt))
+            if (!await _accountService.HasRole(urt))
             {
                 return;
             }

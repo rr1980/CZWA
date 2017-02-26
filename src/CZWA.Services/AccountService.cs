@@ -20,13 +20,13 @@ namespace CZWA.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
-        public UserViewModel User
-        {
-            get
-            {
-                return _getUser().Result;
-            }
-        }
+        //public UserViewModel User
+        //{
+        //    get
+        //    {
+        //        return _getUser().Result;
+        //    }
+        //}
 
         private List<UserViewModel> _allusers;
         public List<UserViewModel> AllUsers
@@ -57,9 +57,10 @@ namespace CZWA.Services
             }
         }
 
-        public bool HasRole(UserRoleType urt)
+        public async Task<bool> HasRole(UserRoleType urt)
         {
-            return User.Roles.Any(r => r == (int)urt);
+            var user = await GetUser();
+            return user.Roles.Any(r => r == (int)urt);
         }
 
 
@@ -80,7 +81,7 @@ namespace CZWA.Services
             return result;
         }
 
-        private async Task<UserViewModel> _getUser()
+        public async Task<UserViewModel> GetUser()
         {
             var id = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             User user = await _context.GetUserById(id);

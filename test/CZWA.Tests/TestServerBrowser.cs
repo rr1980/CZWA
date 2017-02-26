@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Net.Http.Headers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CZWA.Tests
 {
@@ -24,17 +25,31 @@ namespace CZWA.Tests
 
         public CookieContainer Cookies { get; }
 
-        public HttpResponseMessage Get(string relativeUrl)
+        public async Task<HttpResponseMessage> Get(string relativeUrl)
         {
-            return Get(new Uri(relativeUrl, UriKind.Relative));
+            return await Task.Run(async () =>
+            {
+
+
+                await Task.Delay(5000);
+                var frontPageResponse = await Get(new Uri(relativeUrl, UriKind.Relative));
+                //var frontPageResponse = await browser.Get("/");
+
+
+                // Assert
+                Assert.AreEqual(frontPageResponse.StatusCode, HttpStatusCode.Found);
+                Assert.IsTrue(frontPageResponse.Headers.Location.ToString().Contains("/Account/Login?ReturnUrl=%2F"));
+
+                return frontPageResponse;
+            });
         }
 
-        public HttpResponseMessage Get(Uri relativeUrl)
+        public async Task<HttpResponseMessage> Get(Uri relativeUrl)
         {
             var absoluteUrl = new Uri(_testServer.BaseAddress, relativeUrl);
             var requestBuilder = _testServer.CreateRequest(absoluteUrl.ToString());
             AddCookies(requestBuilder, absoluteUrl);
-            var response = requestBuilder.GetAsync().Result;
+            var response = await requestBuilder.GetAsync();
             UpdateCookies(response, absoluteUrl);
             return response;
         }
@@ -60,22 +75,26 @@ namespace CZWA.Tests
             }
         }
 
-        public HttpResponseMessage Post(string relativeUrl, IDictionary<string, string> formValues)
+        public async Task<HttpResponseMessage> Post(string relativeUrl, IDictionary<string, string> formValues)
         {
-            return Post(new Uri(relativeUrl, UriKind.Relative), formValues);
+            return await Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                return await Post(new Uri(relativeUrl, UriKind.Relative), formValues);
+            });
         }
 
-        public HttpResponseMessage Post(Uri relativeUrl, IDictionary<string, string> formValues)
+        public async Task<HttpResponseMessage> Post(Uri relativeUrl, IDictionary<string, string> formValues)
         {
             var absoluteUrl = new Uri(_testServer.BaseAddress, relativeUrl);
             var requestBuilder = _testServer.CreateRequest(absoluteUrl.ToString());
             AddCookies(requestBuilder, absoluteUrl);
             SetXsrfHeader(requestBuilder, absoluteUrl);
             var content = new FormUrlEncodedContent(formValues);
-            var response = requestBuilder.And(message =>
+            var response = await requestBuilder.And(message =>
             {
                 message.Content = content;
-            }).PostAsync().Result;
+            }).PostAsync();
             UpdateCookies(response, absoluteUrl);
             return response;
         }
@@ -91,7 +110,7 @@ namespace CZWA.Tests
             }
         }
 
-        public HttpResponseMessage FollowRedirect(HttpResponseMessage response)
+        public async Task<HttpResponseMessage> FollowRedirect(HttpResponseMessage response)
         {
             if (response.StatusCode != HttpStatusCode.Moved && response.StatusCode != HttpStatusCode.Found)
             {
@@ -102,7 +121,7 @@ namespace CZWA.Tests
             {
                 redirectUrl = new Uri(redirectUrl.PathAndQuery, UriKind.Relative);
             }
-            return Get(redirectUrl);
+            return await Get(redirectUrl);
         }
     }
 }

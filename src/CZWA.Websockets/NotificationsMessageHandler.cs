@@ -19,14 +19,14 @@ namespace CZWA.WebSockets
             _accountService = accountService;
         }
 
-        public async void TestMethode(WebSocket socket,string name)
+        public async void TestMethode(WebSocket socket, string name)
         {
-            if (!_accountService.HasRole(urt))
+            if (!await _accountService.HasRole(urt))
             {
                 return;
             }
 
-            await InvokeClientMethodAsync(socket,"receiveMessage", "JoJo");
+            await InvokeClientMethodAsync(socket, "receiveMessage", "JoJo");
         }
     }
 }
