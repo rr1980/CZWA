@@ -17,90 +17,80 @@ namespace CZWA.Tests
         private const string XsrfCookieName = "XSRF-TOKEN";
         private const string XsrfHeaderName = "X-XSRF-TOKEN";
 
+        public CookieContainer Cookies { get; }
+
         public TestServerBrowser(TestServer testServer)
         {
             _testServer = testServer;
             Cookies = new CookieContainer();
         }
 
-        public CookieContainer Cookies { get; }
-
         public async Task<HttpResponseMessage> Get(string relativeUrl)
         {
             return await Task.Run(async () =>
             {
-
-
-                await Task.Delay(5000);
-                var frontPageResponse = await Get(new Uri(relativeUrl, UriKind.Relative));
-                //var frontPageResponse = await browser.Get("/");
-
-
-                // Assert
-                Assert.AreEqual(frontPageResponse.StatusCode, HttpStatusCode.Found);
-                Assert.IsTrue(frontPageResponse.Headers.Location.ToString().Contains("/Account/Login?ReturnUrl=%2F"));
-
-                return frontPageResponse;
+                return await _get(new Uri(relativeUrl, UriKind.Relative));
             });
         }
 
         public async Task<HttpResponseMessage> Get(Uri relativeUrl)
         {
-            var absoluteUrl = new Uri(_testServer.BaseAddress, relativeUrl);
-            var requestBuilder = _testServer.CreateRequest(absoluteUrl.ToString());
-            AddCookies(requestBuilder, absoluteUrl);
-            var response = await requestBuilder.GetAsync();
-            UpdateCookies(response, absoluteUrl);
-            return response;
-        }
-
-        private void AddCookies(RequestBuilder requestBuilder, Uri absoluteUrl)
-        {
-            var cookieHeader = Cookies.GetCookieHeader(absoluteUrl);
-            if (!string.IsNullOrWhiteSpace(cookieHeader))
+            return await Task.Run(async () =>
             {
-                requestBuilder.AddHeader(HeaderNames.Cookie, cookieHeader);
-            }
-        }
-
-        private void UpdateCookies(HttpResponseMessage response, Uri absoluteUrl)
-        {
-            if (response.Headers.Contains(HeaderNames.SetCookie))
-            {
-                var cookies = response.Headers.GetValues(HeaderNames.SetCookie);
-                foreach (var cookie in cookies)
-                {
-                    Cookies.SetCookies(absoluteUrl, cookie);
-                }
-            }
+                return await _get(relativeUrl);
+            });
         }
 
         public async Task<HttpResponseMessage> Post(string relativeUrl, IDictionary<string, string> formValues)
         {
             return await Task.Run(async () =>
             {
-                await Task.Delay(5000);
-                return await Post(new Uri(relativeUrl, UriKind.Relative), formValues);
+                return await _post(new Uri(relativeUrl, UriKind.Relative), formValues);
             });
         }
 
         public async Task<HttpResponseMessage> Post(Uri relativeUrl, IDictionary<string, string> formValues)
         {
+            return await Task.Run(async () =>
+            {
+                return await _post(relativeUrl, formValues);
+            });
+        }
+
+        public async Task<HttpResponseMessage> FollowRedirect(HttpResponseMessage response)
+        {
+            return await Task.Run(async () =>
+            {
+                if (response.StatusCode != HttpStatusCode.Moved && response.StatusCode != HttpStatusCode.Found)
+                {
+                    return response;
+                }
+                var redirectUrl = new Uri(response.Headers.Location.ToString(), UriKind.RelativeOrAbsolute);
+                if (redirectUrl.IsAbsoluteUri)
+                {
+                    redirectUrl = new Uri(redirectUrl.PathAndQuery, UriKind.Relative);
+                }
+                return await Get(redirectUrl);
+            });
+        }
+
+        private async Task<HttpResponseMessage> _post(Uri relativeUrl, IDictionary<string, string> formValues)
+        {
             var absoluteUrl = new Uri(_testServer.BaseAddress, relativeUrl);
             var requestBuilder = _testServer.CreateRequest(absoluteUrl.ToString());
-            AddCookies(requestBuilder, absoluteUrl);
-            SetXsrfHeader(requestBuilder, absoluteUrl);
+            _addCookies(requestBuilder, absoluteUrl);
+            _setXsrfHeader(requestBuilder, absoluteUrl);
             var content = new FormUrlEncodedContent(formValues);
             var response = await requestBuilder.And(message =>
             {
                 message.Content = content;
             }).PostAsync();
-            UpdateCookies(response, absoluteUrl);
+            _updateCookies(response, absoluteUrl);
             return response;
         }
 
         // Modify to match your XSRF token requirements, e.g. "SetXsrfFormField".
-        private void SetXsrfHeader(RequestBuilder requestBuilder, Uri absoluteUrl)
+        private void _setXsrfHeader(RequestBuilder requestBuilder, Uri absoluteUrl)
         {
             var cookies = Cookies.GetCookies(absoluteUrl);
             var cookie = cookies[XsrfCookieName];
@@ -110,18 +100,36 @@ namespace CZWA.Tests
             }
         }
 
-        public async Task<HttpResponseMessage> FollowRedirect(HttpResponseMessage response)
+        private async Task<HttpResponseMessage> _get(Uri relativeUrl)
         {
-            if (response.StatusCode != HttpStatusCode.Moved && response.StatusCode != HttpStatusCode.Found)
+            var absoluteUrl = new Uri(_testServer.BaseAddress, relativeUrl);
+            var requestBuilder = _testServer.CreateRequest(absoluteUrl.ToString());
+            _addCookies(requestBuilder, absoluteUrl);
+            _setXsrfHeader(requestBuilder, absoluteUrl);
+            var response = await requestBuilder.GetAsync();
+            _updateCookies(response, absoluteUrl);
+            return response;
+        }
+
+        private void _addCookies(RequestBuilder requestBuilder, Uri absoluteUrl)
+        {
+            var cookieHeader = Cookies.GetCookieHeader(absoluteUrl);
+            if (!string.IsNullOrWhiteSpace(cookieHeader))
             {
-                return response;
+                requestBuilder.AddHeader(HeaderNames.Cookie, cookieHeader);
             }
-            var redirectUrl = new Uri(response.Headers.Location.ToString(), UriKind.RelativeOrAbsolute);
-            if (redirectUrl.IsAbsoluteUri)
+        }
+
+        private void _updateCookies(HttpResponseMessage response, Uri absoluteUrl)
+        {
+            if (response.Headers.Contains(HeaderNames.SetCookie))
             {
-                redirectUrl = new Uri(redirectUrl.PathAndQuery, UriKind.Relative);
+                var cookies = response.Headers.GetValues(HeaderNames.SetCookie);
+                foreach (var cookie in cookies)
+                {
+                    Cookies.SetCookies(absoluteUrl, cookie);
+                }
             }
-            return await Get(redirectUrl);
         }
     }
 }

@@ -2,7 +2,7 @@
 <TestSettings name="TestSettings3" id="e70e67e3-898b-448d-b52e-134ec13a038c" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>Dies sind die standardmäßigen Testeinstellungen für einen lokalen Testlauf.</Description>
   <Deployment enabled="false" />
-  <Execution>
+  <Execution parallelTestCount="0" hostProcessPlatform="X86">
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
         <AssemblyResolution>
