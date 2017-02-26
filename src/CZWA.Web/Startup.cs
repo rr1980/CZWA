@@ -49,7 +49,7 @@ namespace CZWA.Web
         {
             services.AddMvc();
 
-            services.AddDbContext<DataContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAuthorization(options =>
             {
@@ -66,23 +66,33 @@ namespace CZWA.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DataContext ctx, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, DataContext ctx, IServiceProvider serviceProvider, IHostingEnvironment env = null, ILoggerFactory loggerFactory = null)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            if (loggerFactory != null)
+            {
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug();
+            }
 
             app.UseWebSockets();
 
-            if (env.IsDevelopment())
+            if (env != null)
+            {
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseBrowserLink();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                }
+            }
+            else
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
 
 
             app.UseStaticFiles();

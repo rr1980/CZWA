@@ -13,6 +13,8 @@
     "CZWA.Web": { "target": "project" },
     "CZWA.Websockets": "1.0.0-*",
     "dotnet-test-mstest": "1.1.2-preview",
+    "Microsoft.AspNetCore.Hosting": "1.1.0",
+    "Microsoft.AspNetCore.Identity": "1.1.0",
     "Microsoft.AspNetCore.TestHost": "1.1.0",
     "Microsoft.NETCore.App": {
       "type": "platform",

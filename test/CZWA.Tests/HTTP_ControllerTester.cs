@@ -19,12 +19,16 @@ namespace CZWA.Tests
         protected TestServer _server;
         protected HttpClient _client;
         protected FormUrlEncodedContent _postLoginContent;
+        //protected TestServerBrowser
 
         public HTTP_ControllerTester()
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), @"../../src/CZWA.Web/");
 
-            _server = new TestServer(new WebHostBuilder().UseContentRoot(path).UseStartup<Startup>());
+            var builder = new WebHostBuilder().UseContentRoot(path).UseStartup<Startup>();
+            Assert.IsNotNull(builder);
+
+            _server = new TestServer(builder);
             Assert.IsNotNull(_server);
 
             _client = _server.CreateClient();
