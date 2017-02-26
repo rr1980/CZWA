@@ -74,7 +74,7 @@ namespace CZWA.Tests.Test_Controller
             await browser.FollowRedirect(signInResponse);
 
             var name = _httpContexts.Last().User.FindFirstValue(ClaimTypes.Name);
-            Assert.AreEqual(name, expectedName);
+            Assert.AreEqual(expectedName, name);
         }
 
         [TestMethod]
