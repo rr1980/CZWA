@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CZWA.Common;
-using CZWA.DB;
 using CZWA.Entitys;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Migrations;
+//using CZWA.DB;
 
 namespace CZWA.DB_Migration
 {
@@ -76,7 +76,8 @@ namespace CZWA.DB_Migration
                     if (context.Database.EnsureDeleted())
                     {
                         Console.WriteLine("Database gelöscht...");
-                    }else
+                    }
+                    else
                     {
                         Console.WriteLine("Keine Database gefunden...");
                     }

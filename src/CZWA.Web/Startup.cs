@@ -81,6 +81,7 @@ namespace CZWA.Web
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
+                    app.UseDatabaseErrorPage();
                     app.UseBrowserLink();
                 }
                 else
@@ -91,6 +92,7 @@ namespace CZWA.Web
             else
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
 

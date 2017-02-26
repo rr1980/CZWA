@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CZWA.Common;
-using CZWA.DB;
 using CZWA.Entitys;
+//using CZWA.DB;
 
 namespace CZWA.DB_Migration
 {
