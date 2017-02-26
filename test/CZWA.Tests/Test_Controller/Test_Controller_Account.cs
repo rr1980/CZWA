@@ -22,12 +22,11 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace CZWA.Tests.AccountController
+namespace CZWA.Tests.Test_Controller
 {
     [TestClass, Area("Rene")]
-    public class Test_AccountController : Test_BaeController
+    public class Test_Controller_Account : Test_Base
     {
-
         [TestMethod]
         [TestCategory("Smoke")]
         public async Task HTTP_GET_RedirectedTo_Login()

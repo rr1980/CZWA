@@ -18,10 +18,10 @@ using Microsoft.AspNetCore.Builder;
 using System.Security.Claims;
 using CZWA.Common;
 
-namespace CZWA.Tests.AccountController
+namespace CZWA.Tests.Test_Controller
 {
     [TestClass, Area("Rene")]
-    public class Test_AdminController : Test_BaeController
+    public class Test_Controller_Admin : Test_Base
     {
         [TestMethod]
         [TestCategory("Smoke")]
@@ -39,7 +39,7 @@ namespace CZWA.Tests.AccountController
             var signInResponse = await browser.Post("/Account/Login", credentials);
 
             await browser.FollowRedirect(signInResponse);
-            
+
             var frontPageResponse = await browser.Get("/Admin");
             Assert.AreEqual(HttpStatusCode.OK, frontPageResponse.StatusCode);
             Assert.AreEqual(frontPageResponse.RequestMessage.RequestUri.AbsolutePath, "/Admin");
