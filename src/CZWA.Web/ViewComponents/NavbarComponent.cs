@@ -29,7 +29,7 @@ namespace CZWA.Web.ViewComponents
         {
             return View(new NavbarViewModel()
             {
-                UserViewModel = await _accountService.GetUser()
+                UserViewModel = await _accountService.GetCurrentUser()
             });
         }
     }

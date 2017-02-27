@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using CZWA.Common;
+using CZWA.DB_Migration;
 using CZWA.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CZWA.Tests.Test_Services
@@ -25,11 +30,17 @@ namespace CZWA.Tests.Test_Services
 
         [TestMethod]
         [TestCategory("Smoke")]
-        public void AllUsers()
+        public async Task GetAllUsers()
         {
-            var allUsers = _accountService.AllUsers;
+            var allUsers = await _accountService.GetAllUsers();
             Assert.IsNotNull(allUsers);
             Assert.IsTrue(allUsers.Count() >= 2);
         }
     }
 }
+
+
+
+
+
+

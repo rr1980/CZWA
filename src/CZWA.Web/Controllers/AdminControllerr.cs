@@ -24,9 +24,9 @@ namespace CZWA.Web.Controllers
         }
 
         [Authorize(Policy = "AdminPolicy")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var result = _accountService.AllUsers;
+            var result = await _accountService.GetAllUsers();
             result.Insert(0, new UserViewModel()
             {
                 UserId = -1,
@@ -46,7 +46,7 @@ namespace CZWA.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                result = _accountService.AllUsers;
+                result = await _accountService.GetAllUsers();
                 result.Insert(0, new UserViewModel()
                 {
                     UserId = -1,

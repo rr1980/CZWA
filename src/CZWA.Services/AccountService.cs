@@ -18,39 +18,13 @@ namespace CZWA.Services
     public class AccountService
     {
         private readonly DataContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        public HttpContext _httpContext;
         private readonly ILogger _logger;
-
-        //public UserViewModel User
-        //{
-        //    get
-        //    {
-        //        return _getUser().Result;
-        //    }
-        //}
-
-        private List<UserViewModel> _allusers;
-        public List<UserViewModel> AllUsers
-        {
-            get
-            {
-                if (_allusers == null)
-                {
-                    _allusers = _getAllUsers().Result;
-                }
-                return _allusers;
-            }
-            private set
-            {
-                _allusers = value;
-            }
-        }
-
 
         public AccountService(DataContext context, IHttpContextAccessor httpContextAccessor, ILogger<AccountService> logger)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
+            _httpContext = httpContextAccessor.HttpContext;
             if (logger != null)
             {
                 _logger = logger;
@@ -60,10 +34,10 @@ namespace CZWA.Services
 
         public async Task<bool> HasRole(UserRoleType urt)
         {
-            var user = await GetUser();
+            var user = await GetCurrentUser();
             if (user != null)
             {
-                return user.Roles.Any(r => r == (int)urt);
+                return  user.Roles.Any(r => r == (int)urt);
             }
             else
             {
@@ -72,7 +46,7 @@ namespace CZWA.Services
         }
 
 
-        private async Task<List<UserViewModel>> _getAllUsers()
+        public async Task<List<UserViewModel>> GetAllUsers()
         {
             var users = await _context.GetAllUsers();
 
@@ -89,10 +63,10 @@ namespace CZWA.Services
             return result;
         }
 
-        public async Task<UserViewModel> GetUser()
+        public async Task<UserViewModel> GetCurrentUser()
         {
-            var id = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-            User user = await _context.GetUserById(id);
+            var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            var user = await _context.GetUserById(id);
 
             if (user != null)
             {
@@ -143,7 +117,7 @@ namespace CZWA.Services
                 var claimsPrinciple = new ClaimsPrincipal(claimsIdentity);
 
 
-                await _httpContextAccessor.HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrinciple, new AuthenticationProperties
+                await _httpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrinciple, new AuthenticationProperties
                 {
                     ExpiresUtc = DateTime.UtcNow.AddHours(12),
                     IsPersistent = true,            // remember me!?
@@ -161,7 +135,7 @@ namespace CZWA.Services
             _delRoles(usr);
             _context.Remove(usr);
             _context.SaveChanges();
-            return await _getAllUsers();
+            return await GetAllUsers();
         }
 
         public async Task<List<UserViewModel>> SaveUser(UserViewModel user)
@@ -181,7 +155,7 @@ namespace CZWA.Services
 
             _context.SaveChanges();
 
-            return await _getAllUsers();
+            return await GetAllUsers();
         }
 
         private User _updateUser(User usr, UserViewModel user)
