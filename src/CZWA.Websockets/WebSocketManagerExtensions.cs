@@ -19,7 +19,7 @@ namespace CZWA.WebSockets
             {
                 if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
                 {
-                    services.AddTransient(type);
+                    services.AddScoped(type);
                 }
             }
 
