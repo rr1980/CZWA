@@ -15,19 +15,11 @@ namespace CZWA.WebSockets
         {
             services.AddSingleton<WebSocketConnectionManager>();
 
-            //foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
-            //{
-            //    if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
-            //    {
-            //        services.AddSingleton(type);
-            //    }
-            //}
-
             foreach (var type in typeof(WebSocketManagerExtensions).GetTypeInfo().Assembly.ExportedTypes)
             {
                 if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
                 {
-                    services.AddSingleton(type);
+                    services.AddTransient(type);
                 }
             }
 

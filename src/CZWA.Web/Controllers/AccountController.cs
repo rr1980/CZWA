@@ -9,6 +9,7 @@ using CZWA.Services;
 using CZWA.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +18,12 @@ namespace CZWA.Web.Controllers
     public class AccountController : BaseController
     {
         private readonly AccountService _accountService;
+        private readonly HttpContext _httpContext;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
+            _httpContext = httpContextAccessor.HttpContext;
         }
 
         [HttpGet]
@@ -35,8 +38,8 @@ namespace CZWA.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool isAuth = await _accountService.Auth(model.Username, model.Password);
-                if (isAuth)
+                //bool isAuth = await _accountService.Auth(model.Username, model.Password);
+                if (await _auth(model.Username, model.Password))
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
@@ -65,6 +68,44 @@ namespace CZWA.Web.Controllers
             await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Redirect("~/");
+        }
+
+        private async Task<bool> _auth(string username, string password)
+        {
+            var user = await _accountService.GetUserByName(username);
+
+            if (user == null || (user.Password != password))
+            {
+                return false;
+            }
+
+            var claims = new List<Claim> {
+                                 new Claim(ClaimTypes.Authentication, "true"),
+                                 new Claim(ClaimTypes.Sid, user.UserId.ToString()),
+                                 new Claim(ClaimTypes.Surname, user.Name),
+                                 new Claim(ClaimTypes.GivenName, user.Vorname),
+                                 new Claim(ClaimTypes.Name, user.Username)
+                        };
+
+            var uroles = user.Roles.Select(r => new Claim(ClaimTypes.Role, ((UserRoleType)r).ToString()));
+            foreach (var role in uroles)
+            {
+                claims.Add(role);
+            }
+
+
+            var claimsIdentity = new ClaimsIdentity(claims, "password");
+            var claimsPrinciple = new ClaimsPrincipal(claimsIdentity);
+
+
+            await _httpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrinciple, new AuthenticationProperties
+            {
+                ExpiresUtc = DateTime.UtcNow.AddHours(12),
+                IsPersistent = true,            // remember me!?
+                AllowRefresh = true
+            });
+
+            return true;
         }
     }
 }

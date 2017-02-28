@@ -58,12 +58,11 @@ namespace CZWA.Web
                 options.AddPolicy("AdminPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Admin)));
             });
 
-
-            services.AddWebSocketManager();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
-            services.AddScoped<AccountService>();
+            services.AddSingleton<AccountService>();
+
+            services.AddWebSocketManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CZWA.Common;
 using CZWA.Services;
@@ -19,9 +20,10 @@ namespace CZWA.WebSockets
             _accountService = accountService;
         }
 
-        public async void TestMethode(WebSocket socket, string name)
+        public async void TestMethode(WebSocket socket, HttpContext httpContext, string name)
         {
-            if (!await _accountService.HasRole(urt))
+            var id = Convert.ToInt32(httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            if (!await _accountService.HasRole(id, urt))
             {
                 return;
             }

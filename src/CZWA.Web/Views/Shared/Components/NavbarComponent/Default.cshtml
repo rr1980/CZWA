@@ -18,7 +18,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        @if (await ls.HasRole(UserRoleType.Admin))
+                        @if (await ls.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
                         {
                             <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
                         }

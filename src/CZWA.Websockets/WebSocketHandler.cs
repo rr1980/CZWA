@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -97,12 +98,13 @@ namespace CZWA.WebSockets
             }
         }
 
-        public async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)
+        public async Task ReceiveAsync(WebSocket socket, HttpContext context, WebSocketReceiveResult result, byte[] buffer)
         {
             var serializedInvocationDescriptor = Encoding.UTF8.GetString(buffer, 0, result.Count);
             var invocationDescriptor = JsonConvert.DeserializeObject<InvocationDescriptor>(serializedInvocationDescriptor);
 
             var aa = invocationDescriptor.Arguments.ToList();
+            aa.Insert(0, context);
             aa.Insert(0, socket);
             invocationDescriptor.Arguments = aa.ToArray();
 

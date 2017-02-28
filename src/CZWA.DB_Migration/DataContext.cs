@@ -115,9 +115,9 @@ namespace CZWA.DB_Migration
             return usr;
         }
 
-        public async Task<User> GetUser(string username, string password)
+        public async Task<User> GetUserByName(string username)
         {
-            var usr = (User)await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
+            var usr = (User)await Users.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.Username == username);
             //var usr = (User)await Users.SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
             return usr;
         }

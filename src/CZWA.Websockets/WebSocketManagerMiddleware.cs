@@ -14,8 +14,7 @@ namespace CZWA.WebSockets
         private readonly RequestDelegate _next;
         private WebSocketHandler _webSocketHandler { get; set; }
 
-        public WebSocketManagerMiddleware(RequestDelegate next,
-                                          WebSocketHandler webSocketHandler)
+        public WebSocketManagerMiddleware(RequestDelegate next, WebSocketHandler webSocketHandler)
         {
             _next = next;
             _webSocketHandler = webSocketHandler;
@@ -33,7 +32,7 @@ namespace CZWA.WebSockets
             {
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
-                    await _webSocketHandler.ReceiveAsync(socket, result, buffer);
+                    await _webSocketHandler.ReceiveAsync(socket, context, result, buffer);
                     return;
                 }
 
@@ -57,7 +56,7 @@ namespace CZWA.WebSockets
             });
 
             //TODO - investigate the Kestrel exception thrown when this is the last middleware
-            //await _next.Invoke(context);
+            await _next.Invoke(context);
         }
 
         private async Task Receive(WebSocket socket, Action<WebSocketReceiveResult, byte[]> handleMessage)

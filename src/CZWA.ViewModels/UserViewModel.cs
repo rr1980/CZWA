@@ -20,6 +20,8 @@ namespace CZWA.ViewModels
 
         public string ShowName { get; set; }
 
+        public string Password { get; set; }
+
         public IEnumerable<int> Roles { get; set; }
     }
 }
