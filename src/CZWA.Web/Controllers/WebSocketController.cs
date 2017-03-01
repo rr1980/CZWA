@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CZWA.WebSockets;
+using CZWA.Web.WebSocketHandlers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CZWA.Web.Controllers

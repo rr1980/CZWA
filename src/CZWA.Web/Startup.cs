@@ -9,6 +9,7 @@ using CZWA.Common;
 using CZWA.DB_Migration;
 //using CZWA.DB;
 using CZWA.Services;
+using CZWA.Web.WebSocketHandlers;
 using CZWA.WebSockets;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -62,7 +63,7 @@ namespace CZWA.Web
             services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
             services.AddSingleton<AccountService>();
 
-            services.AddWebSocketManager();
+            services.AddWebSocketManager(GetType().GetTypeInfo().Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

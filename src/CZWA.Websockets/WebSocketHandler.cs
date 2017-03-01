@@ -6,13 +6,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CZWA.Common;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace CZWA.WebSockets
 {
-    public abstract class WebSocketHandler
+    public abstract class WebSocketHandler : IWebSocketHandler<Message>
     {
         protected WebSocketConnectionManager WebSocketConnectionManager { get; set; }
 

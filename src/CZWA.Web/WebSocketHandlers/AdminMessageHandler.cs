@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using CZWA.Common;
 using CZWA.Services;
 using CZWA.ViewModels;
+using CZWA.WebSockets;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace CZWA.WebSockets
+namespace CZWA.Web.WebSocketHandlers
 {
     public class AdminMessageHandler : WebSocketHandler
     {

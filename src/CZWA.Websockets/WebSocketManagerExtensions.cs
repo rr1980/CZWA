@@ -11,11 +11,11 @@ namespace CZWA.WebSockets
 {
     public static class WebSocketManagerExtensions
     {
-        public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
+        public static IServiceCollection AddWebSocketManager(this IServiceCollection services, Assembly asm)
         {
             services.AddSingleton<WebSocketConnectionManager>();
 
-            foreach (var type in typeof(WebSocketManagerExtensions).GetTypeInfo().Assembly.ExportedTypes)
+            foreach (var type in asm.ExportedTypes)
             {
                 if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
                 {
