@@ -17,7 +17,7 @@ namespace CZWA.Web.Controllers
         private readonly ILogger _logger;
         private readonly AccountService _accountService;
 
-        public AdminController(ILogger<HomeController> logger, AccountService accountService)
+        public AdminController(ILogger<AdminController> logger, AccountService accountService)
         {
             _logger = logger;
             _accountService = accountService;
